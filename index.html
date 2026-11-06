@@ -250,6 +250,8 @@ button{
   justify-content:center;
   max-width:100%;
   max-height:50vh;
+  animation:sway 3.6s ease-in-out infinite;
+  transform-origin:50% 92%;
 }
 
 .sprite-emoji{
@@ -269,8 +271,7 @@ button{
 }
 
 .denis-sprite{
-  animation:sway 3.6s ease-in-out infinite;
-  transform-origin:50% 92%;
+  /* покачивание вынесено на .sprite-wrap, чтобы одежда двигалась вместе с телом */
 }
 
 @keyframes sway{
@@ -278,7 +279,7 @@ button{
   50%{ transform:translateY(-9px) rotate(1.1deg) scale(1.012); }
 }
 
-.denis-sprite.sleeping{
+.sprite-wrap.sleeping{
   animation:sleepBreath 4.2s ease-in-out infinite;
 }
 
@@ -287,7 +288,7 @@ button{
   50%{ transform:scale(1.025) translateY(-4px); }
 }
 
-.denis-sprite.hit-shake{
+.sprite-wrap.hit-shake{
   animation:shakeIt .38s ease;
 }
 
@@ -307,8 +308,16 @@ button{
 
 .cloth-item{
   position:absolute;
+  transform:translate(-50%,-50%);
   line-height:1;
   filter:drop-shadow(0 4px 10px rgba(0,0,0,.8));
+  pointer-events:none;
+  will-change:transform;
+}
+
+.cloth-emoji{
+  display:block;
+  line-height:1;
   animation:clothPop .35s ease;
 }
 
@@ -2048,6 +2057,7 @@ const DEFAULT_STATE = {
   hunger: 78,
   beer: 74,
   mood: 70,
+  owned: [],
   clothes: [],
   lastTick: Date.now(),
   best: { shoot: 0, slap: 0, battle: 0 },
@@ -2067,6 +2077,11 @@ function loadState(){
       state = Object.assign({}, JSON.parse(JSON.stringify(DEFAULT_STATE)), parsed);
       if (!state.best || typeof state.best !== 'object') state.best = { shoot:0, slap:0, battle:0 };
       if (!Array.isArray(state.clothes)) state.clothes = [];
+      if (!Array.isArray(state.owned)) state.owned = [];
+      /* миграция старых сохранений: всё, что надето, считаем купленным */
+      state.clothes.forEach(id => {
+        if (state.owned.indexOf(id) === -1) state.owned.push(id);
+      });
       state.coins = Math.max(0, Number(state.coins) || 0);
       state.hunger = clamp01(Number(state.hunger) || 0);
       state.beer = clamp01(Number(state.beer) || 0);
@@ -2142,6 +2157,7 @@ function buildBottles(){
    6. СПРАЙТ ДЕНИСА НА ГЛАВНОМ ЭКРАНЕ
    ============================================================ */
 const denisImg = $('#denisImg');
+const denisWrap = $('#denisWrap');
 const denisEmoji = $('#denisEmoji');
 const clothesLayer = $('#clothesLayer');
 
@@ -2179,6 +2195,7 @@ function applySprite(key){
 denisImg.addEventListener('load', () => {
   denisImg.style.display = 'block';
   denisEmoji.style.display = 'none';
+  applyClothes();
 });
 
 denisImg.addEventListener('error', () => {
@@ -2190,12 +2207,12 @@ denisImg.addEventListener('error', () => {
 function refreshSprite(){
   if (Date.now() < spriteLockUntil) return;
   applySprite(currentSpriteKey());
-  denisImg.classList.toggle('sleeping', sleeping);
+  denisWrap.classList.toggle('sleeping', sleeping);
 }
 
 function animSprite(key, ms){
   applySprite(key);
-  denisImg.classList.remove('sleeping');
+  denisWrap.classList.remove('sleeping');
   spriteLockUntil = Date.now() + ms;
   clearTimeout(spriteLockTimer);
   spriteLockTimer = setTimeout(() => {
@@ -2205,10 +2222,10 @@ function animSprite(key, ms){
 }
 
 function shakeDenis(){
-  denisImg.classList.remove('hit-shake');
-  void denisImg.offsetWidth;
-  denisImg.classList.add('hit-shake');
-  setTimeout(() => denisImg.classList.remove('hit-shake'), 420);
+  denisWrap.classList.remove('hit-shake');
+  void denisWrap.offsetWidth;
+  denisWrap.classList.add('hit-shake');
+  setTimeout(() => denisWrap.classList.remove('hit-shake'), 420);
 }
 
 /* ============================================================
@@ -2307,35 +2324,44 @@ setInterval(tick, 1500);
 /* ============================================================
    9. ОДЕЖДА
    ============================================================ */
+/* Точки привязки — по анатомии спрайта denis_idle.png (1254×1254):
+   голова 1–18%, шея ~16%, плечи ~24%, торс 24–57%.
+   x/y — проценты от квадрата спрайта, size — доля его высоты. */
 const SHOP_ITEMS = [
   {
     id: 'cap', name: 'Кепка «Динамо»', emoji: '🧢', price: 60,
     desc: 'Классика подвального стиля. +5 настроения',
-    pos: { top: '0%', left: '50%', transform: 'translateX(-50%)', fontSize: 'clamp(20px,7vh,52px)' },
+    anchor: { x: 49.3, y: 2.7, size: 0.100 },
+    z: 3,
     filter: 'saturate(1.05)'
   },
   {
     id: 'glasses', name: 'Очки-калейдоскоп', emoji: '🕶️', price: 150,
     desc: 'Сквозь них мир выглядит добрее. +8 настроения',
-    pos: { top: '22%', left: '50%', transform: 'translateX(-50%)', fontSize: 'clamp(18px,6vh,44px)' },
+    anchor: { x: 49.3, y: 10.4, size: 0.100 },
+    z: 3,
     filter: 'saturate(1.15) hue-rotate(8deg)'
   },
   {
     id: 'chain', name: 'Золотая цепь', emoji: '📿', price: 350,
     desc: 'Толстая, как жизнь. +10 настроения',
-    pos: { top: '46%', left: '50%', transform: 'translateX(-50%)', fontSize: 'clamp(18px,6vh,46px)' },
+    anchor: { x: 49.3, y: 17.4, size: 0.095 },
+    z: 4,
     filter: 'brightness(1.06) contrast(1.04)'
   },
   {
     id: 'jacket', name: 'Кожаная куртка', emoji: '🧥', price: 800,
     desc: 'Пахнет бензином и надеждой. +15 настроения',
-    pos: { top: '34%', left: '50%', transform: 'translateX(-50%)', fontSize: 'clamp(34px,12vh,88px)', opacity: '0.68' },
+    anchor: { x: 49.3, y: 37.5, size: 0.340 },
+    z: 1,
+    opacity: 0.85,
     filter: 'contrast(1.1) saturate(0.85)'
   },
   {
     id: 'crown', name: 'Корона алкаша', emoji: '👑', price: 2000,
     desc: 'Король подвала. +25 настроения',
-    pos: { top: '-6%', left: '50%', transform: 'translateX(-50%)', fontSize: 'clamp(22px,8vh,56px)' },
+    anchor: { x: 49.3, y: 1.2, size: 0.125 },
+    z: 5,
     filter: 'brightness(1.15) saturate(1.25) hue-rotate(-8deg)'
   }
 ];
@@ -2345,7 +2371,8 @@ function renderShop(){
   list.innerHTML = '';
 
   SHOP_ITEMS.forEach(item => {
-    const owned = state.clothes.indexOf(item.id) !== -1;
+    const owned = state.owned.indexOf(item.id) !== -1;       /* куплено когда-либо */
+    const equipped = state.clothes.indexOf(item.id) !== -1;  /* надето сейчас */
     const row = el('div', 'shop-item' + (owned ? ' owned' : ''));
     row.innerHTML =
       '<div class="shop-thumb">' + item.emoji + '</div>' +
@@ -2354,36 +2381,47 @@ function renderShop(){
         '<div class="shop-desc">' + item.desc + '</div>' +
       '</div>';
 
-    const btn = el('button', 'shop-buy' + (owned ? ' on' : ''), owned ? 'Снять' : item.price + ' 🪙');
+    const btnLabel = !owned ? item.price + ' 🪙' : (equipped ? 'Снять' : 'Надеть');
+    const btn = el('button', 'shop-buy' + (!owned ? '' : (equipped ? ' on' : ' off')), btnLabel);
     btn.addEventListener('click', (ev) => {
       ev.stopPropagation();
       unlockAudio();
-      if (state.clothes.indexOf(item.id) !== -1) {
-        state.clothes = state.clothes.filter(x => x !== item.id);
+
+      /* вещь уже куплена: надеваем/снимаем без повторной оплаты */
+      if (state.owned.indexOf(item.id) !== -1) {
+        if (state.clothes.indexOf(item.id) !== -1) {
+          state.clothes = state.clothes.filter(x => x !== item.id);
+          toast('Снято: ' + item.name);
+        } else {
+          state.clothes.push(item.id);
+          toast('Надето: ' + item.name);
+        }
         playSound('click');
         haptic('light');
         renderShop();
         applyClothes();
         saveState();
+        return;
+      }
+
+      if (state.coins >= item.price) {
+        state.coins -= item.price;
+        state.owned.push(item.id);
+        state.clothes.push(item.id);
+        state.mood = clamp01(state.mood + (item.id === 'crown' ? 25 : item.id === 'jacket' ? 15 : item.id === 'chain' ? 10 : item.id === 'glasses' ? 8 : 5));
+        playSound('win');
+        haptic('success');
+        renderCoins();
+        renderStats();
+        renderShop();
+        applyClothes();
+        saveState();
+        toast('Куплено: ' + item.name);
+        showBubble('Ну наконец-то, прикид!', 2600);
       } else {
-        if (state.coins >= item.price) {
-          state.coins -= item.price;
-          state.clothes.push(item.id);
-          state.mood = clamp01(state.mood + (item.id === 'crown' ? 25 : item.id === 'jacket' ? 15 : item.id === 'chain' ? 10 : item.id === 'glasses' ? 8 : 5));
-          playSound('win');
-          haptic('success');
-          renderCoins();
-          renderStats();
-          renderShop();
-          applyClothes();
-          saveState();
-          toast('Куплено: ' + item.name);
-          showBubble('Ну наконец-то, прикид!', 2600);
-        } else {
-          playSound('hit');
-          haptic('error');
-          toast('Не хватает ' + Math.ceil(item.price - state.coins) + ' 🪙');
-        }
+        playSound('hit');
+        haptic('error');
+        toast('Не хватает ' + Math.ceil(item.price - state.coins) + ' 🪙');
       }
     });
 
@@ -2394,21 +2432,50 @@ function renderShop(){
 
 function applyClothes(){
   clothesLayer.innerHTML = '';
-  let filter = 'none';
   const parts = [];
 
-  SHOP_ITEMS.forEach(item => {
-    if (state.clothes.indexOf(item.id) === -1) return;
-    const node = el('span', 'cloth-item', item.emoji);
-    Object.keys(item.pos).forEach(k => { node.style[k] = item.pos[k]; });
-    if (item.pos.opacity) node.style.opacity = item.pos.opacity;
+  /* размер берём от реальной высоты спрайта, а не от vh —
+     тогда вещи сидят на теле при любом размере экрана */
+  const boxH = clothesLayer.clientHeight || denisWrap.clientHeight || denisImg.clientHeight || 0;
+
+  SHOP_ITEMS
+    .filter(item => state.clothes.indexOf(item.id) !== -1)
+    .sort((a, b) => (a.z || 0) - (b.z || 0))
+    .forEach(item => {
+
+    const node = el('span', 'cloth-item');
+    node.style.left = item.anchor.x + '%';
+    node.style.top = item.anchor.y + '%';
+    node.style.zIndex = String(item.z || 0);
+    if (item.opacity !== undefined) node.style.opacity = String(item.opacity);
+
+    const inner = el('span', 'cloth-emoji', item.emoji);
+    const px = boxH > 20 ? Math.round(boxH * item.anchor.size) : 0;
+    if (px) inner.style.fontSize = px + 'px';
+    node.appendChild(inner);
+
     clothesLayer.appendChild(node);
     if (item.filter) parts.push(item.filter);
   });
 
-  if (parts.length) filter = parts.join(' ');
-  denisImg.style.filter = filter === 'none' ? '' : filter;
+  const baseShadow = 'drop-shadow(0 14px 34px rgba(0,0,0,.85))';
+  denisImg.style.filter = parts.length ? baseShadow + ' ' + parts.join(' ') : '';
+
+  /* картинка ещё не загрузилась — пересчитаем на следующем кадре */
+  if (boxH <= 20 && state.clothes.length && !applyClothes._retry){
+    applyClothes._retry = true;
+    requestAnimationFrame(function(){
+      applyClothes._retry = false;
+      applyClothes();
+    });
+  }
 }
+
+let clothesResizeRaf = 0;
+window.addEventListener('resize', function(){
+  cancelAnimationFrame(clothesResizeRaf);
+  clothesResizeRaf = requestAnimationFrame(applyClothes);
+});
 
 /* ============================================================
    10. ДЕЙСТВИЯ ГЛАВНОГО ЭКРАНА
@@ -2429,8 +2496,8 @@ $('#btnSmile').addEventListener('click', () => {
   renderStats();
   saveState();
   showBubble(NICE_PHRASES[Math.floor(Math.random() * NICE_PHRASES.length)], 2400);
-  denisImg.style.transform = 'scale(1.03)';
-  setTimeout(() => { denisImg.style.transform = ''; }, 150);
+  denisWrap.style.transform = 'scale(1.03)';
+  setTimeout(() => { denisWrap.style.transform = ''; }, 150);
 });
 
 $('#btnBeer').addEventListener('click', () => {
@@ -2473,7 +2540,7 @@ function startSleep(){
 
   $('#sleepOverlay').classList.add('show');
   applySprite('sleep');
-  denisImg.classList.add('sleeping');
+  denisWrap.classList.add('sleeping');
   spriteLockUntil = Date.now() + 30000;
 
   let left = 30;
@@ -2507,7 +2574,7 @@ function endSleep(){
   saveState();
 
   $('#sleepOverlay').classList.remove('show');
-  denisImg.classList.remove('sleeping');
+  denisWrap.classList.remove('sleeping');
   refreshSprite();
 
   setActionButtonsDisabled(false);
