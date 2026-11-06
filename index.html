@@ -1290,227 +1290,149 @@ button{
 }
 
 /* ============================================================
-   БИТВА
+   БИТВА — 2D ФАЙТИНГ
    ============================================================ */
-.battle-wrap{
+.fight-wrap{
+  --fbtn: clamp(44px, 12.4vw, 58px);
   flex:1 1 auto;
   min-height:0;
   display:flex;
   flex-direction:column;
-  gap:9px;
+  gap:7px;
   position:relative;
-  padding-bottom:96px;
 }
 
-.hp-row{
-  display:flex;
-  gap:10px;
-  flex:0 0 auto;
-}
-
-.hp-side{ flex:1 1 0; min-width:0; }
-.hp-side.right{ text-align:right; }
-
-.hp-name{
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.4px;
-  color:#cbb6dd;
-  margin-bottom:4px;
-  text-shadow:0 2px 5px #000;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.hpbar{
-  height:12px;
-  border-radius:8px;
-  background:#0b0810;
-  border:1px solid rgba(255,255,255,.09);
-  overflow:hidden;
-  box-shadow:inset 0 2px 8px rgba(0,0,0,.95);
-}
-
-.hpbar i{
-  display:block;
-  height:100%;
-  width:100%;
-  border-radius:7px;
-  transition:width .28s cubic-bezier(.4,0,.2,1);
-  background:linear-gradient(90deg, #2ecc71, #7dffb0);
-  box-shadow:0 0 12px rgba(46,204,113,.7);
-}
-
-.hpbar i.mid{
-  background:linear-gradient(90deg, #d99b00, #f1c40f);
-  box-shadow:0 0 12px rgba(241,196,15,.7);
-}
-
-.hpbar i.low{
-  background:linear-gradient(90deg, #b3122a, #ff3333);
-  box-shadow:0 0 14px rgba(255,51,51,.9);
-}
-
-.hpbar i.tanka{
-  background:linear-gradient(90deg, #ff7bbd, #c2185b);
-  box-shadow:0 0 12px rgba(255,105,180,.7);
-}
-
-.hpbar i.tanka.mid{
-  background:linear-gradient(90deg, #d99b00, #f1c40f);
-  box-shadow:0 0 12px rgba(241,196,15,.7);
-}
-
-.hpbar i.tanka.low{
-  background:linear-gradient(90deg, #b3122a, #ff3333);
-  box-shadow:0 0 14px rgba(255,51,51,.9);
-}
-
-.canvas-box{
+.fight-stage{
+  position:relative;
   flex:1 1 auto;
   min-height:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  border-radius:18px;
+  overflow:hidden;
+  background:#07050a;
+  border:1px solid rgba(255,90,120,.16);
+  box-shadow:0 16px 44px rgba(0,0,0,.85), 0 0 40px rgba(255,60,90,.08), inset 0 0 70px rgba(0,0,0,.9);
 }
 
 #battleCanvas{
   width:100%;
-  height:auto;
-  max-height:100%;
-  border-radius:18px;
-  border:1px solid rgba(155,89,182,.25);
-  box-shadow:0 14px 40px rgba(0,0,0,.8), 0 0 34px rgba(155,89,182,.15);
-  touch-action:none;
+  height:100%;
   display:block;
+  touch-action:none;
 }
 
-.battle-foot{
+.fight-hint{
+  flex:0 0 auto;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.3px;
+  color:rgba(210,195,225,.55);
+  text-align:center;
+  line-height:1.2;
+  min-height:11px;
+  padding:0 4px;
+  transition:opacity .8s ease;
+}
+.fight-hint.fade{ opacity:0; }
+
+.fight-controls{
   flex:0 0 auto;
   display:flex;
   align-items:center;
-  gap:10px;
-  padding-bottom:2px;
-}
-
-.rounds{
-  font-size:11px;
-  font-weight:900;
-  color:var(--muted);
-  letter-spacing:.4px;
-  text-shadow:0 2px 5px #000;
-}
-
-.rounds-col{
-  flex:1 1 auto;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-}
-
-.fire-btn{
-  width:66px;
-  height:66px;
-  flex:0 0 auto;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.2);
-  background:linear-gradient(160deg, #ff5b5b, #8e0e22);
-  font-size:28px;
-  line-height:1;
-  color:#fff;
-  cursor:pointer;
-  box-shadow:0 8px 26px rgba(255,51,51,.45), inset 0 2px 0 rgba(255,255,255,.3);
-  transition:transform .1s ease, box-shadow .2s ease;
-}
-
-.fire-btn:active{
-  transform:scale(.92);
-  box-shadow:0 4px 14px rgba(255,51,51,.6), inset 0 2px 0 rgba(255,255,255,.2);
-}
-
-.fire-btn:disabled{
-  opacity:.4;
-  transform:none;
-  box-shadow:none;
-}
-
-/* ---- ПАНЕЛЬ УПРАВЛЕНИЯ БОЕМ ---- */
-.battle-controls{
-  position:absolute;
-  bottom:20px;
-  left:0;
-  width:100%;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  z-index:100;
-}
-
-.ctrl-btn{
-  width:62px;
-  height:62px;
-  flex:0 0 auto;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.18);
-  background:linear-gradient(160deg, #2c1b38 0%, #150d1d 70%);
-  color:#fff;
-  font-size:24px;
-  line-height:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
+  justify-content:space-between;
+  gap:6px;
+  padding:1px 2px 0;
+  touch-action:none;
   user-select:none;
   -webkit-user-select:none;
-  touch-action:manipulation;
-  box-shadow:0 8px 22px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.12);
-  transition:transform .1s ease, box-shadow .2s ease, opacity .2s ease;
 }
 
-.ctrl-btn:active,
-.ctrl-btn.pressed{
-  transform:scale(.92);
-  box-shadow:0 4px 12px rgba(0,0,0,.8), 0 0 24px rgba(155,89,182,.55);
+.fpad{
+  display:grid;
+  gap:7px;
+  grid-template-columns:repeat(2, var(--fbtn));
+  grid-template-rows:repeat(2, var(--fbtn));
 }
+.fpad .jump{ grid-column:1 / 3; justify-self:center; }
 
-.ctrl-btn.fire{
-  width:76px;
-  height:76px;
-  font-size:30px;
-  background:linear-gradient(160deg, #ff5b5b, #8e0e22);
-  box-shadow:0 8px 26px rgba(255,51,51,.45), inset 0 2px 0 rgba(255,255,255,.3);
+.fbtn{
+  position:relative;
+  width:var(--fbtn);
+  height:var(--fbtn);
+  border-radius:17px;
+  border:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(160deg, rgba(48,30,60,.94), rgba(12,8,18,.96));
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:0;
+  cursor:pointer;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
+  box-shadow:0 6px 18px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.10);
+  transition:transform .07s ease, box-shadow .16s ease, opacity .2s ease, filter .16s ease;
 }
-
-.ctrl-btn.fire:active{
-  box-shadow:0 4px 14px rgba(255,51,51,.6), inset 0 2px 0 rgba(255,255,255,.2);
+.fbtn .ic{
+  font-size:calc(var(--fbtn) * .40);
+  line-height:1;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.85));
 }
-
-.ctrl-btn.punch{
-  background:linear-gradient(160deg, #ffd95e, #a67c00);
-  color:#2a1a00;
-  box-shadow:0 8px 26px rgba(241,196,15,.35), inset 0 2px 0 rgba(255,255,255,.4);
+.fbtn .cap{
+  font-size:calc(var(--fbtn) * .155);
+  font-weight:900;
+  letter-spacing:.3px;
+  color:rgba(232,222,244,.72);
+  line-height:1.1;
+  margin-top:1px;
 }
-
-.ctrl-btn:disabled{
-  opacity:.35;
-  transform:none;
-  box-shadow:none;
-  cursor:default;
+.fbtn:active,
+.fbtn.pressed{
+  transform:scale(.93);
+  box-shadow:0 3px 10px rgba(0,0,0,.8), 0 0 20px rgba(155,89,182,.45), inset 0 1px 0 rgba(255,255,255,.14);
 }
+.fbtn.fire{
+  background:linear-gradient(160deg,#ff6a5b,#8c0f22);
+  box-shadow:0 6px 20px rgba(255,70,60,.35), inset 0 2px 0 rgba(255,255,255,.25);
+}
+.fbtn.punch{
+  background:linear-gradient(160deg,#ffd95e,#9c6f00);
+  color:#251700;
+  box-shadow:0 6px 20px rgba(241,196,15,.28), inset 0 2px 0 rgba(255,255,255,.35);
+}
+.fbtn.punch .cap{ color:rgba(37,23,0,.74); }
+.fbtn.block{ background:linear-gradient(160deg,#4d7fff,#122b6e); }
+.fbtn.dodge{ background:linear-gradient(160deg,#33e0d0,#0a5f63); }
+.fbtn.jump{ background:linear-gradient(160deg,#7b5cff,#2a1470); }
 
-.hint{
-  font-size:9px;
-  font-weight:700;
-  color:rgba(180,165,200,.55);
-  letter-spacing:.2px;
-  line-height:1.25;
+.fbtn.super{
+  width:calc(var(--fbtn) * 1.06);
+  height:calc(var(--fbtn) * 1.06);
+  border-radius:50%;
+  background:linear-gradient(160deg,#3a2a52,#120b1c);
+  color:#f7e7a0;
+  opacity:.38;
+  filter:grayscale(.75);
   pointer-events:none;
-  text-align:left;
-  white-space:normal;
-  word-break:break-word;
-  max-width:100%;
+}
+.fbtn.super .star{ font-size:calc(var(--fbtn) * .46); line-height:1; }
+.fbtn.super .cap{ font-size:calc(var(--fbtn) * .15); }
+.fbtn.super.ready{
+  opacity:1;
+  filter:none;
+  pointer-events:auto;
+  background:linear-gradient(160deg,#ffd35e,#a1163f);
+  border-color:rgba(255,240,180,.55);
+  animation:superPulse 1.15s ease-in-out infinite;
+}
+@keyframes superPulse{
+  0%,100%{ box-shadow:0 0 0 rgba(255,200,80,0), 0 6px 18px rgba(0,0,0,.7); transform:scale(1); }
+  50%{ box-shadow:0 0 26px rgba(255,200,80,.8), 0 6px 18px rgba(0,0,0,.7); transform:scale(1.05); }
+}
+
+@media (max-height: 640px){
+  .fight-wrap{ --fbtn: clamp(40px, 11.4vw, 50px); }
+  .fight-hint{ display:none; }
 }
 
 /* ============================================================
@@ -1809,7 +1731,7 @@ button{
         <button class="game-card" style="--card-glow:rgba(120,150,255,.4)" id="gameBattleCard">
           <span class="g-ico">🔫</span>
           <span class="g-name">Битва с Танькой</span>
-          <span class="g-sub">до 2 побед · лазеры</span>
+          <span class="g-sub">файтинг · до 2 побед</span>
         </button>
       </div>
 
@@ -2015,6 +1937,32 @@ function playSound(type){
     /* грустный нисходящий */
     tone(ctx, { type:'sawtooth', f1:420, f2:90, dur:0.75, vol:0.16, start:now, linear:false });
     tone(ctx, { type:'sine', f1:210, f2:60, dur:0.9, vol:0.12, start:now + 0.06 });
+  }
+  else if (type === 'shoot') {
+    tone(ctx, { type:'square', f1:540, f2:150, dur:0.085, vol:0.15, start:now });
+    tone(ctx, { type:'triangle', f1:1300, f2:320, dur:0.05, vol:0.07, start:now });
+  }
+  else if (type === 'laser') {
+    tone(ctx, { type:'sawtooth', f1:1500, f2:170, dur:0.30, vol:0.15, start:now });
+    tone(ctx, { type:'sine', f1:90, f2:45, dur:0.42, vol:0.16, start:now });
+  }
+  else if (type === 'block') {
+    tone(ctx, { type:'triangle', f1:1700, f2:900, dur:0.085, vol:0.12, start:now });
+    tone(ctx, { type:'square', f1:320, f2:220, dur:0.07, vol:0.08, start:now });
+  }
+  else if (type === 'whoosh') {
+    tone(ctx, { type:'sine', f1:240, f2:980, dur:0.14, vol:0.08, start:now });
+  }
+  else if (type === 'super') {
+    tone(ctx, { type:'sawtooth', f1:180, f2:1400, dur:0.38, vol:0.13, start:now, linear:true });
+    [523.25, 783.99, 1046.5].forEach(function(f, i){
+      tone(ctx, { type:'triangle', f1:f, f2:f * 1.5, dur:0.5, vol:0.10, start: now + 0.06 + i * 0.05 });
+    });
+  }
+  else if (type === 'ko') {
+    tone(ctx, { type:'sawtooth', f1:260, f2:34, dur:0.95, vol:0.22, start:now });
+    tone(ctx, { type:'sine', f1:70, f2:28, dur:1.15, vol:0.20, start:now });
+    tone(ctx, { type:'square', f1:140, f2:60, dur:0.35, vol:0.10, start:now });
   }
 }
 
@@ -3367,856 +3315,2164 @@ function buildPuzzle(holder, imageUrl){
 }
 
 /* ============================================================
-   16. МИНИ-ИГРА 4: БИТВА С ТАНЬКОЙ (CANVAS 2D)
+   16. МИНИ-ИГРА 4: БИТВА С ТАНЬКОЙ — 2D ФАЙТИНГ
    ============================================================ */
-$('#gameBattleCard').addEventListener('click', () => {
+
+$('#gameBattleCard').addEventListener('click', function(){
   unlockAudio();
   playSound('click');
   haptic('light');
   gameBattle();
 });
 
+/* обрезка спрайтов по реальному содержимому (в PNG много пустого места) */
+const FIGHT_ART = {
+  denis:      { key:'idle',        sx:418, sy:10, sw:399,  sh:1231 },
+  denisAngry: { key:'angry',       sx:402, sy:8,  sw:411,  sh:1237 },
+  tanka:      { key:'tanka_idle',  sx:210, sy:8,  sw:813,  sh:1241 },
+  denisFace:  { key:'shoot',       sx:222, sy:6,  sw:349,  sh:787  },
+  tankaFace:  { key:'tanka_laser', sx:126, sy:4,  sw:537,  sh:785  }
+};
+
+/* приёмы: старт/активная фаза/полное время в мс, урон, дальность в высотах бойца */
+const FIGHT_DEFS = {
+  denis: {
+    p1:    { startup:75,  active:85,  total:300,  dmg:6,  reach:0.70, hitstun:200, knock:0.55, hitstop:55,  chain:true, lunge:0.05 },
+    p2:    { startup:85,  active:90,  total:330,  dmg:6,  reach:0.72, hitstun:220, knock:0.70, hitstop:60,  chain:true, lunge:0.06 },
+    p3:    { startup:135, active:105, total:560,  dmg:11, reach:0.78, hitstun:360, knock:1.70, hitstop:110, heavy:true, lunge:0.10 },
+    shoot: { startup:110, active:50,  total:340,  dmg:8,  hitstop:45, projSpeed:11, shot:true },
+    super: { startup:340, total:1350, dmg:6, volley:[0,150,300,450,600], hitstop:40, shot:true, projSpeed:13 }
+  },
+  tanka: {
+    p1:    { startup:90,  active:90,  total:330,  dmg:6,  reach:0.72, hitstun:210, knock:0.55, hitstop:55,  chain:true, lunge:0.05 },
+    p2:    { startup:95,  active:95,  total:350,  dmg:6,  reach:0.74, hitstun:230, knock:0.70, hitstop:60,  chain:true, lunge:0.06 },
+    p3:    { startup:150, active:115, total:580,  dmg:12, reach:0.82, hitstun:370, knock:1.80, hitstop:115, heavy:true, lunge:0.11 },
+    laser: { startup:420, active:60,  total:820,  dmg:12, hitstop:70,  beam:true },
+    super: { startup:430, active:120, total:1450, dmg:30, hitstop:140, beam:true, heavy:true }
+  }
+};
+
 function gameBattle(){
   openMini('⚔️ Битва с Танькой');
 
-  const wrap = el('div', 'battle-wrap');
+  const coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+
+  const wrap = el('div', 'fight-wrap');
   wrap.innerHTML =
-    '<div class="hp-row">' +
-      '<div class="hp-side">' +
-        '<div class="hp-name">🧔 ДЕНИС <span id="hpDTxt">100</span></div>' +
-        '<div class="hpbar"><i id="hpD"></i></div>' +
-      '</div>' +
-      '<div class="hp-side right">' +
-        '<div class="hp-name"><span id="hpTTxt">100</span> ТАНЬКА 👩</div>' +
-        '<div class="hpbar"><i id="hpT" class="tanka"></i></div>' +
-      '</div>' +
+    '<div class="fight-stage"><canvas id="battleCanvas"></canvas></div>' +
+    '<div class="fight-hint" id="fightHint">' +
+      (coarse
+        ? '◀▶ идти · прыжок · блок · уворот · огонь · удар'
+        : 'A/D или ◀▶ — идти · W — прыжок · S — блок · Shift — уворот · J — удар · K — огонь · E — супер') +
     '</div>' +
-    '<div class="canvas-box"><canvas id="battleCanvas" width="800" height="500"></canvas></div>' +
-    '<div class="battle-foot">' +
-      '<div class="rounds-col">' +
-        '<div class="rounds" id="roundsInfo">Раунд 1 · 0 : 0</div>' +
-        '<div class="hint">◀▶ ходьба · 🔫 выстрел · 👊 удар</div>' +
+    '<div class="fight-controls">' +
+      '<div class="fpad">' +
+        '<button class="fbtn jump" id="fJump" type="button"><span class="ic">⤴</span><span class="cap">ПРЫЖОК</span></button>' +
+        '<button class="fbtn" id="fLeft" type="button"><span class="ic">◀</span></button>' +
+        '<button class="fbtn" id="fRight" type="button"><span class="ic">▶</span></button>' +
       '</div>' +
-    '</div>' +
-    '<div class="battle-controls">' +
-      '<button class="ctrl-btn" id="btnLeft">◀️</button>' +
-      '<button class="ctrl-btn" id="btnRight">▶️</button>' +
-      '<button class="ctrl-btn fire" id="fireBtn">🔫</button>' +
-      '<button class="ctrl-btn punch" id="btnPunch">👊</button>' +
+      '<button class="fbtn super" id="fSuper" type="button"><span class="star">⭐</span><span class="cap">СУПЕР</span></button>' +
+      '<div class="fpad">' +
+        '<button class="fbtn block" id="fBlock" type="button"><span class="ic">🛡</span><span class="cap">БЛОК</span></button>' +
+        '<button class="fbtn dodge" id="fDodge" type="button"><span class="ic">💨</span><span class="cap">УВОРОТ</span></button>' +
+        '<button class="fbtn fire" id="fFire" type="button"><span class="ic">🔫</span><span class="cap">ОГОНЬ</span></button>' +
+        '<button class="fbtn punch" id="fPunch" type="button"><span class="ic">👊</span><span class="cap">УДАР</span></button>' +
+      '</div>' +
     '</div>';
 
   miniBody.appendChild(wrap);
 
   const canvas = wrap.querySelector('#battleCanvas');
   const ctx = canvas.getContext('2d');
-  const W = canvas.width;
-  const H = canvas.height;
+  const hintEl = wrap.querySelector('#fightHint');
+  const btnSuper = wrap.querySelector('#fSuper');
+  const btnLeft = wrap.querySelector('#fLeft');
+  const btnRight = wrap.querySelector('#fRight');
+  const btnJump = wrap.querySelector('#fJump');
+  const btnBlock = wrap.querySelector('#fBlock');
+  const btnDodge = wrap.querySelector('#fDodge');
+  const btnFire = wrap.querySelector('#fFire');
+  const btnPunch = wrap.querySelector('#fPunch');
 
-  const spriteDenisIdle = loadCanvasSprite('idle');
-  const spriteDenisShoot = loadCanvasSprite('shoot');
-  const spriteDenisAngry = loadCanvasSprite('angry');
-  const spriteTankaIdle = loadCanvasSprite('tanka_idle');
-  const spriteTankaLaser = loadCanvasSprite('tanka_laser');
-  const spriteTankaHurt = loadCanvasSprite('tanka_hurt');
+  const cleanups = [];
+  function on(node, ev, fn, opts){
+    node.addEventListener(ev, fn, opts);
+    cleanups.push(function(){ node.removeEventListener(ev, fn, opts); });
+  }
 
-  const hpD = wrap.querySelector('#hpD');
-  const hpT = wrap.querySelector('#hpT');
-  const hpDTxt = wrap.querySelector('#hpDTxt');
-  const hpTTxt = wrap.querySelector('#hpTTxt');
-  const roundsInfo = wrap.querySelector('#roundsInfo');
-  const fireBtn = wrap.querySelector('#fireBtn');
-  const btnLeft = wrap.querySelector('#btnLeft');
-  const btnRight = wrap.querySelector('#btnRight');
-  const btnPunch = wrap.querySelector('#btnPunch');
+  /* ---------- спрайты ---------- */
+  const IMG = {
+    denis: loadCanvasSprite('idle'),
+    denisAngry: loadCanvasSprite('angry'),
+    tanka: loadCanvasSprite('tanka_idle'),
+    denisFace: loadCanvasSprite('shoot'),
+    tankaFace: loadCanvasSprite('tanka_laser')
+  };
+
+  /* ---------- вид ---------- */
+  const V = { cw:0, ch:0, H:150, u:1, ground:0, dpr:1 };
+  let backdrop = null;
+
+  function layout(){
+    const cw = Math.max(240, canvas.clientWidth || 360);
+    const ch = Math.max(180, canvas.clientHeight || 320);
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+
+    canvas.width = Math.round(cw * dpr);
+    canvas.height = Math.round(ch * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const oldW = V.cw;
+    V.cw = cw;
+    V.ch = ch;
+    V.dpr = dpr;
+    V.H = Math.max(96, Math.min(ch * 0.48, cw * 0.38, 280));
+    V.u = V.H / 240;
+    V.ground = ch * 0.84;
+
+    if (oldW) {
+      const k = cw / oldW;
+      D.x *= k; T.x *= k;
+    }
+    D.airY = Math.min(D.airY, V.H);
+    T.airY = Math.min(T.airY, V.H);
+    buildBackdrop();
+  }
+
+  /* ---------- состояние ---------- */
+  let realTime = 0;
+
+  function makeFighter(id){
+    return {
+      id,
+      label: id === 'denis' ? 'ДЕНИС' : 'ТАНЬКА',
+      x:0, airY:0, vy:0, grounded:true,
+      vx:0, push:0, moveDir:0,
+      facing: id === 'denis' ? 1 : -1,
+      halfW: 20,
+      hp:100, maxHp:100, hpGhost:100,
+      super:0, guard:100, guardHitAt:0,
+      stamina:100,
+      state:'idle', atk:null, stage:0, lastAttackEnd:-9999,
+      blocking:false,
+      hurtUntil:0, invulnUntil:0, dodgeUntil:0, dodgeCd:0, dodgeDir:0,
+      flashUntil:0, guardBreakUntil:0,
+      trail:[],
+      ammo:6, ammoTimer:0, charge:3, chargeTimer:0,
+      fireCd:0, beamCd:0, shootFlash:0,
+      combo:0, comboUntil:0,
+      koStart:0
+    };
+  }
+
+  const D = makeFighter('denis');
+  const T = makeFighter('tanka');
 
   const G = {
-    running: true,
-    over: false,
+    t: 0,
+    phase: 'intro',
+    introAt: 0,
+    introReal: 0,
+    koAt: 0,
+    koReal: 0,
+    koWinner: '',
+    koLoser: '',
+    koReason: 'ko',
     round: 1,
     winsD: 0,
     winsT: 0,
-    denis: {
-      hp: 100, maxHp: 100,
-      x: 100, y: H / 2, w: 150, h: 300,
-      targetX: 100,
-      targetY: H / 2,
-      left: false, right: false,
-      shootUntil: 0,
-      punchUntil: 0,
-      hurtUntil: 0
-    },
-    tanka: {
-      hp: 100, maxHp: 100,
-      x: W - 250, y: H / 2, w: 150, h: 300,
-      targetX: W - 250,
-      targetY: H / 2,
-      isShooting: false,
-      shootStart: 0,
-      fired: false,
-      hurtUntil: 0,
-      state: 'idle',        /* idle | moving | punching | dodge */
-      aiTimer: 0,
-      moveUntil: 0,
-      punchStart: 0,
-      punchFired: false,
-      dodgeUntil: 0,
-      dodgeCooldown: 0
-    },
-    bullets: [],
-    particles: [],
-    laser: { show: false, x1: 0, y1: 0, x2: 0, y2: 0, until: 0 },
-    aim: { x: 0, y: 0, active: false, until: 0 },
-    nextShotAt: 0,
-    fireCooldown: 0,
-    punchCooldown: 0,
-    lastTs: 0
+    roundTime: 60,
+    hitstop: 0,
+    shake: 0,
+    flash: 0,
+    proj: [],
+    beams: [],
+    fx: [],
+    motes: [],
+    ai: { thinkAt:0, plan:'neutral', planUntil:0, skill:0.6 },
+    lastSuperReady: null
   };
 
-  /* границы арены */
-  const DENIS_MIN_X = 10;
-  const DENIS_MAX_X = 180;
-  const TANKA_MIN_X = 360;
-  const TANKA_MAX_X = W - 150 - 10;
+  const input = {
+    left:false, right:false, block:false, shootHeld:false,
+    punchAt:-1e9, jumpAt:-1e9, dodgeAt:-1e9, shootAt:-1e9, superAt:-1e9
+  };
 
-  function clampDenisX(v){ return Math.max(DENIS_MIN_X, Math.min(DENIS_MAX_X, v)); }
-  function clampTankaX(v){ return Math.max(TANKA_MIN_X, Math.min(TANKA_MAX_X, v)); }
-  function clampTankaY(v){ return Math.max(180, Math.min(320, v)); }
+  const approach = function(cur, target, step){
+    if (cur < target) return Math.min(target, cur + step);
+    return Math.max(target, cur - step);
+  };
+  const feetOf = function(f){ return V.ground - f.airY; };
 
-  const ctrlButtons = [fireBtn, btnPunch, btnLeft, btnRight];
-
-  function resetRound(keepWins){
-    G.over = false;
-    G.denis.hp = G.denis.maxHp;
-    G.tanka.hp = G.tanka.maxHp;
-    G.denis.x = 100;
-    G.denis.targetX = 100;
-    G.denis.y = H / 2;
-    G.denis.targetY = H / 2;
-    G.denis.left = false;
-    G.denis.right = false;
-    G.denis.shootUntil = 0;
-    G.denis.punchUntil = 0;
-    G.denis.hurtUntil = 0;
-    G.tanka.x = W - 250;
-    G.tanka.targetX = W - 250;
-    G.tanka.y = H / 2;
-    G.tanka.targetY = H / 2;
-    G.tanka.hurtUntil = 0;
-    G.tanka.isShooting = false;
-    G.tanka.fired = false;
-    G.tanka.state = 'idle';
-    G.tanka.punchFired = false;
-    G.tanka.dodgeUntil = 0;
-    G.tanka.dodgeCooldown = 0;
-    G.tanka.aiTimer = performance.now() + 2600;
-    G.bullets.length = 0;
-    G.particles.length = 0;
-    G.laser.show = false;
-    G.aim.active = false;
-    G.nextShotAt = performance.now() + 1600;
-    G.fireCooldown = 0;
-    G.punchCooldown = 0;
-    if (!keepWins) {
-      G.winsD = 0;
-      G.winsT = 0;
-      G.round = 1;
-    }
-    ctrlButtons.forEach(function(b){ b.disabled = false; });
-    updateHpBars();
-    updateRounds();
-  }
-
-  function updateHpBars(){
-    hpD.style.width = Math.max(0, (G.denis.hp / G.denis.maxHp) * 100).toFixed(1) + '%';
-    hpT.style.width = Math.max(0, (G.tanka.hp / G.tanka.maxHp) * 100).toFixed(1) + '%';
-    hpDTxt.textContent = Math.max(0, Math.round(G.denis.hp));
-    hpTTxt.textContent = Math.max(0, Math.round(G.tanka.hp));
-
-    hpD.classList.toggle('mid', G.denis.hp <= 60 && G.denis.hp > 30);
-    hpD.classList.toggle('low', G.denis.hp <= 30);
-    hpT.classList.toggle('mid', G.tanka.hp <= 60 && G.tanka.hp > 30);
-    hpT.classList.toggle('low', G.tanka.hp <= 30);
-  }
-
-  function updateRounds(){
-    roundsInfo.textContent = 'Раунд ' + G.round + ' · ' + G.winsD + ' : ' + G.winsT;
-  }
-
-  function addParticles(x, y, color, count){
-    for (let i = 0; i < count; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const sp = 1.5 + Math.random() * 5;
-      G.particles.push({
-        x: x, y: y,
-        vx: Math.cos(a) * sp,
-        vy: Math.sin(a) * sp,
-        life: 1,
-        color: color,
-        size: 2 + Math.random() * 5
-      });
+  function rr(x, y, w, h, r){
+    const rad = Math.min(r, Math.abs(w) / 2, Math.abs(h) / 2);
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, w, h, rad);
+    else {
+      ctx.moveTo(x + rad, y);
+      ctx.arcTo(x + w, y, x + w, y + h, rad);
+      ctx.arcTo(x + w, y + h, x, y + h, rad);
+      ctx.arcTo(x, y + h, x, y, rad);
+      ctx.arcTo(x, y, x + w, y, rad);
+      ctx.closePath();
     }
   }
-
-  function damageDenis(amount){
-    if (G.over) return;
-    G.denis.hp -= amount;
-    G.denis.hurtUntil = performance.now() + 260;
-    addParticles(G.denis.x + G.denis.w / 2, G.denis.y, '#ff3333', 16);
-    playSound('hit');
-    haptic('heavy');
-    updateHpBars();
-    if (G.denis.hp <= 0) {
-      G.denis.hp = 0;
-      endRound('tanka');
-    }
+  function fillRound(x, y, w, h, r, color){
+    rr(x, y, w, h, r);
+    ctx.fillStyle = color;
+    ctx.fill();
   }
 
-  function damageTanka(amount, x, y){
-    if (G.over) return;
-    G.tanka.hp -= amount;
-    G.tanka.hurtUntil = performance.now() + 500;
-    addParticles(x, y, '#ff3333', 14);
-    addParticles(x, y, '#f1c40f', 8);
-    playSound('hit');
-    haptic('medium');
-    updateHpBars();
-    if (G.tanka.hp <= 0) {
-      G.tanka.hp = 0;
-      endRound('denis');
+  /* ---------- фон ---------- */
+  function buildBackdrop(){
+    const dpr = V.dpr;
+    const W = V.cw, Hh = V.ch, ground = V.ground;
+    backdrop = document.createElement('canvas');
+    backdrop.width = Math.max(1, Math.round(W * dpr));
+    backdrop.height = Math.max(1, Math.round(Hh * dpr));
+    const g = backdrop.getContext('2d');
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    /* стена */
+    const wall = g.createLinearGradient(0, 0, 0, ground);
+    wall.addColorStop(0, '#1a1022');
+    wall.addColorStop(0.55, '#120b18');
+    wall.addColorStop(1, '#0a0710');
+    g.fillStyle = wall;
+    g.fillRect(0, 0, W, ground);
+
+    /* кирпич */
+    let seed = 20261106;
+    const rnd = function(){
+      seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+      return seed / 0x7fffffff;
+    };
+    const bw = Math.max(38, W * 0.075);
+    const bh = Math.max(18, Hh * 0.045);
+    for (let row = 0; row * bh < ground; row++){
+      const off = (row % 2) ? bw / 2 : 0;
+      for (let x = -bw; x < W + bw; x += bw){
+        const l = 11 + rnd() * 9;
+        const hue = 286 + rnd() * 14;
+        g.fillStyle = 'hsl(' + hue.toFixed(0) + ',14%,' + l.toFixed(0) + '%)';
+        g.fillRect(x + off + 1.2, row * bh + 1.2, bw - 2.4, bh - 2.4);
+      }
     }
-  }
 
-  function endRound(winner){
-    G.over = true;
-    ctrlButtons.forEach(function(b){ b.disabled = true; });
-    G.laser.show = false;
-    G.aim.active = false;
+    /* тёмные углы */
+    const corner = g.createRadialGradient(W / 2, ground * 0.55, Hh * 0.15, W / 2, ground * 0.55, W * 0.85);
+    corner.addColorStop(0, 'rgba(0,0,0,0)');
+    corner.addColorStop(1, 'rgba(0,0,0,0.72)');
+    g.fillStyle = corner;
+    g.fillRect(0, 0, W, ground);
 
-    if (winner === 'denis') {
-      G.winsD++;
-      state.best.battle = (state.best.battle || 0) + 1;
-      addCoins(30);
-      playSound('win');
-      haptic('success');
-    } else {
-      G.winsT++;
-      playSound('lose');
-      haptic('error');
+    /* пол */
+    const floor = g.createLinearGradient(0, ground, 0, Hh);
+    floor.addColorStop(0, '#241a2c');
+    floor.addColorStop(0.35, '#171020');
+    floor.addColorStop(1, '#0a070e');
+    g.fillStyle = floor;
+    g.fillRect(0, ground, W, Hh - ground);
+
+    /* перспективные доски */
+    g.strokeStyle = 'rgba(180,140,210,0.10)';
+    g.lineWidth = 1;
+    const vpX = W / 2;
+    const lines = 14;
+    for (let i = 0; i <= lines; i++){
+      const bx = (i / lines) * W;
+      g.beginPath();
+      g.moveTo(vpX + (bx - vpX) * 0.25, ground);
+      g.lineTo(bx, Hh);
+      g.stroke();
+    }
+    const rows = 5;
+    for (let i = 1; i <= rows; i++){
+      const t = i / rows;
+      const y = ground + (Hh - ground) * (t * t);
+      g.globalAlpha = 0.55 - t * 0.3;
+      g.beginPath();
+      g.moveTo(0, y);
+      g.lineTo(W, y);
+      g.stroke();
+    }
+    g.globalAlpha = 1;
+
+    /* круг на полу */
+    g.strokeStyle = 'rgba(255,60,110,0.16)';
+    g.lineWidth = 3;
+    g.beginPath();
+    g.ellipse(W / 2, ground + (Hh - ground) * 0.42, W * 0.30, (Hh - ground) * 0.36, 0, 0, Math.PI * 2);
+    g.stroke();
+    g.strokeStyle = 'rgba(255,60,110,0.07)';
+    g.lineWidth = 14;
+    g.stroke();
+
+    /* полка с бутылками слева */
+    const shY = ground - V.H * 0.95;
+    g.fillStyle = 'rgba(10,7,14,0.85)';
+    g.fillRect(W * 0.035, shY, W * 0.15, 6);
+    for (let i = 0; i < 5; i++){
+      const bx = W * 0.05 + i * W * 0.026;
+      const bh2 = V.H * (0.12 + rnd() * 0.05);
+      g.fillStyle = i % 2 ? 'rgba(90,140,80,0.55)' : 'rgba(150,110,60,0.5)';
+      g.fillRect(bx, shY - bh2, W * 0.012, bh2);
+      g.fillRect(bx + W * 0.003, shY - bh2 - V.H * 0.04, W * 0.006, V.H * 0.045);
     }
 
-    updateRounds();
-    saveState();
-    renderRecords();
+    /* бочка справа */
+    const bx2 = W * 0.90, by2 = ground - V.H * 0.02;
+    g.fillStyle = 'rgba(58,40,66,0.9)';
+    g.beginPath();
+    g.ellipse(bx2, by2 - V.H * 0.30, V.H * 0.15, V.H * 0.34, 0, 0, Math.PI * 2);
+    g.fill();
+    g.strokeStyle = 'rgba(150,110,170,0.18)';
+    g.lineWidth = 2;
+    for (let i = 1; i <= 3; i++){
+      g.beginPath();
+      g.ellipse(bx2, by2 - V.H * 0.30 + (i - 2) * V.H * 0.17, V.H * 0.15, V.H * 0.04, 0, 0, Math.PI * 2);
+      g.stroke();
+    }
 
-    const matchOver = G.winsD >= 2 || G.winsT >= 2;
-    const title = winner === 'denis' ? 'Победил Денис' : 'Победила Танька';
-    const sub = 'Счёт матча: ' + G.winsD + ' : ' + G.winsT +
-                (matchOver ? (G.winsD >= 2 ? ' · Денис забрал матч!' : ' · Танька забрала матч!') : ' · до 2 побед');
+    /* цепь-сетка в углах */
+    g.strokeStyle = 'rgba(160,170,190,0.06)';
+    g.lineWidth = 1;
+    for (let i = 0; i < 26; i++){
+      g.beginPath();
+      g.moveTo(-W * 0.02 + i * 9, 0);
+      g.lineTo(W * 0.10 + i * 9, ground);
+      g.stroke();
+      g.beginPath();
+      g.moveTo(W * 0.10 + i * 9, 0);
+      g.lineTo(-W * 0.02 + i * 9, ground);
+      g.stroke();
+    }
 
-    setTimeout(() => {
-      showMiniResult({
-        title: title,
-        sub: sub,
-        reward: winner === 'denis' ? 30 : undefined,
-        againLabel: matchOver ? 'Заново' : 'Дальше ▶',
-        onAgain: function(){
-          const res = miniBody.querySelector('.mini-result');
-          if (res) res.remove();
-          if (matchOver) {
-            resetRound(false);
-            G.round = 1;
-          } else {
-            G.round++;
-            resetRound(true);
-          }
-        }
-      });
-    }, 620);
-  }
-
-  function fire(){
-    if (G.over || !G.running) return;
-    const now = performance.now();
-    if (now < G.fireCooldown) return;
-    G.fireCooldown = now + 320;
-
-    G.denis.shootUntil = now + 300;
-    G.bullets.push({
-      x: G.denis.x + 120,
-      y: G.denis.y - 50,
-      vx: 15,
-      /* 50% шанс, что Танька попробует увернуться именно от этой пули */
-      dodgeRoll: Math.random() < 0.5,
-      dodged: false
+    /* провода ламп */
+    g.strokeStyle = 'rgba(0,0,0,0.8)';
+    g.lineWidth = 2;
+    [[W * 0.24, 0.10], [W * 0.76, 0.10]].forEach(function(p){
+      g.beginPath();
+      g.moveTo(p[0], 0);
+      g.lineTo(p[0], Hh * p[1] + Hh * 0.05);
+      g.stroke();
+      g.fillStyle = '#141018';
+      g.beginPath();
+      g.moveTo(p[0] - W * 0.035, Hh * p[1]);
+      g.lineTo(p[0] + W * 0.035, Hh * p[1]);
+      g.lineTo(p[0] + W * 0.018, Hh * (p[1] + 0.055));
+      g.lineTo(p[0] - W * 0.018, Hh * (p[1] + 0.055));
+      g.closePath();
+      g.fill();
     });
 
-    playSound('click');
+    /* низ — тёмная подложка */
+    const fg = g.createLinearGradient(0, Hh * 0.9, 0, Hh);
+    fg.addColorStop(0, 'rgba(0,0,0,0)');
+    fg.addColorStop(1, 'rgba(0,0,0,0.75)');
+    g.fillStyle = fg;
+    g.fillRect(0, Hh * 0.9, W, Hh * 0.1);
+
+    /* пыль */
+    G.motes.length = 0;
+    for (let i = 0; i < 26; i++){
+      G.motes.push({
+        x: Math.random() * W,
+        y: Math.random() * Hh,
+        r: 0.6 + Math.random() * 1.7,
+        sp: 4 + Math.random() * 14,
+        ph: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  /* ---------- бой ---------- */
+  function canAct(f){
+    return G.phase === 'fight' && !f.atk && G.t >= f.hurtUntil &&
+           G.t >= f.dodgeUntil && G.t >= f.guardBreakUntil && f.grounded;
+  }
+
+  function faceOpponent(f, opp){
+    if (f.atk) return;
+    f.facing = opp.x >= f.x ? 1 : -1;
+  }
+
+  function startAttack(f, kind){
+    const def = FIGHT_DEFS[f.id][kind];
+    if (!def) return;
+    f.atk = { kind, def, start: G.t, hitDone:false, fired:false, missed:false, volley:{}, nextPunch:false };
+    f.blocking = false;
+    f.state = 'attack';
+  }
+
+  function startPunchStage(f, stage){
+    f.stage = stage;
+    startAttack(f, 'p' + (stage + 1));
+  }
+
+  function pressPunch(f){
+    if (G.phase !== 'fight' || G.t < f.hurtUntil || G.t < f.dodgeUntil || G.t < f.guardBreakUntil) return;
+    if (!f.grounded) return;
+
+    if (f.atk){
+      const a = f.atk;
+      if (a.def.chain && (G.t - a.start) >= a.def.startup * 0.55) a.nextPunch = true;
+      return;
+    }
+    if (G.t - f.lastAttackEnd < 520) startPunchStage(f, Math.min(2, f.stage + 1));
+    else startPunchStage(f, 0);
+  }
+
+  function tryShoot(f){
+    if (!canAct(f)) return false;
+    if (G.t < f.fireCd) return false;
+
+    if (f.id === 'denis'){
+      if (f.ammo <= 0){
+        if (G.t > (f.reloadWarnAt || 0)){ f.reloadWarnAt = G.t + 650; playSound('click'); }
+        return false;
+      }
+      f.ammo--;
+      f.fireCd = G.t + 330;
+    } else {
+      if (f.charge <= 0) return false;
+      if (G.t < f.beamCd) return false;
+      f.charge--;
+      f.beamCd = G.t + 1200;
+      f.fireCd = G.t + 700;
+    }
+    startAttack(f, f.id === 'denis' ? 'shoot' : 'laser');
+    return true;
+  }
+
+  function tryDodge(f, dir){
+    if (G.phase !== 'fight') return false;
+    if (!f.grounded || f.atk) return false;
+    if (G.t < f.hurtUntil || G.t < f.dodgeCd || G.t < f.guardBreakUntil) return false;
+    if (f.stamina < 30) return false;
+
+    const d = (dir === undefined) ? (f.moveDir || -f.facing) : dir;
+    f.dodgeDir = d === 0 ? -f.facing : d;
+    f.dodgeUntil = G.t + 380;
+    f.invulnUntil = G.t + 215;
+    f.dodgeCd = G.t + 920;
+    f.stamina -= 30;
+    f.atk = null;
+    f.blocking = false;
+    f.trail.length = 0;
+    playSound('whoosh');
+    haptic('light');
+    return true;
+  }
+
+  function tryJump(f){
+    if (G.phase !== 'fight' || !f.grounded || f.atk) return false;
+    if (G.t < f.hurtUntil || G.t < f.dodgeUntil || G.t < f.guardBreakUntil) return false;
+    f.vy = -1290 * V.u;
+    f.grounded = false;
+    f.blocking = false;
+    playSound('whoosh');
+    return true;
+  }
+
+  function trySuper(f){
+    if (!canAct(f) || f.super < 100) return false;
+    f.super = 0;
+    startAttack(f, 'super');
+    playSound('super');
+    haptic('heavy');
+    G.flash = Math.max(G.flash, 0.28);
+    return true;
+  }
+
+  function meleeHits(f, opp, def){
+    if (opp.state === 'ko') return false;
+    if (opp.airY > V.H * 0.28) return false;
+    const reach = def.reach * V.H;
+    const x1 = f.x + f.facing * V.H * 0.06;
+    const x2 = f.x + f.facing * reach;
+    const lo = Math.min(x1, x2);
+    const hi = Math.max(x1, x2);
+    return hi > opp.x - opp.halfW && lo < opp.x + opp.halfW;
+  }
+
+  function muzzlePoint(f){
+    return { x: f.x + f.facing * V.H * 0.26, y: feetOf(f) - V.H * 0.58 };
+  }
+
+  function fireProjectile(f, def){
+    const m = muzzlePoint(f);
+    const speed = (typeof def.projSpeed === 'number' && isFinite(def.projSpeed)) ? def.projSpeed : 12;
+    G.proj.push({
+      owner: f.id,
+      x: m.x,
+      y: m.y + (def.volley ? (Math.random() - 0.5) * V.H * 0.05 : 0),
+      vx: f.facing * speed * V.H,
+      r: Math.max(2.5, V.H * 0.024),
+      dmg: def.dmg,
+      hitstun: def.heavy ? 300 : 190,
+      knock: def.volley ? 0.30 : 0.42,
+      hitstop: def.hitstop,
+      heavy: !!def.heavy,
+      spin: Math.random() * 6
+    });
+    f.shootFlash = G.t + 90;
+    G.fx.push({ kind:'flash', x:m.x, y:m.y, life:0.09, max:0.09, size: V.H * 0.16 });
+    addSparks(m.x, m.y, 6, '#ffd45e');
+    playSound('shoot');
     haptic('light');
   }
 
-  /* удар Дениса кулаком */
-  function punch(){
-    if (G.over || !G.running) return;
-    const now = performance.now();
-    if (now < G.punchCooldown) return;
-    G.punchCooldown = now + 620;
+  function fireBeam(f, def){
+    const y = feetOf(f) - V.H * 0.58;
+    const opp = f === D ? T : D;
+    G.beams.push({
+      y,
+      dir: f.facing,
+      x: f.x,
+      until: G.t + 260,
+      w: def.heavy ? V.H * 0.13 : V.H * 0.075,
+      color: f.id === 'tanka' ? '255,70,150' : '255,210,90'
+    });
+    G.flash = Math.max(G.flash, def.heavy ? 0.55 : 0.24);
+    G.shake = Math.max(G.shake, def.heavy ? 15 : 8);
+    playSound('laser');
+    haptic(def.heavy ? 'heavy' : 'medium');
 
-    G.denis.punchUntil = now + 280;
+    const feet = feetOf(opp);
+    const inFront = (f.facing > 0 && opp.x > f.x) || (f.facing < 0 && opp.x < f.x);
+    const hit = inFront && y > feet - V.H * 0.94 && y < feet - V.H * 0.04;
+    if (hit) applyHit(f, opp, def, y);
+    else addSparks(f.x + f.facing * V.H * 0.4, y, 10, '#ff70b0');
+  }
 
-    const gap = G.tanka.x - (G.denis.x + G.denis.w);
-    if (gap < 170) {
-      damageTanka(14, G.denis.x + G.denis.w, G.denis.y);
-    } else {
-      playSound('click');
+  function applyHit(attacker, defender, def, hitY){
+    if (G.phase !== 'fight') return false;
+    if (G.t < defender.invulnUntil) return false;
+
+    const blocked = defender.blocking && defender.grounded;
+    const dmg = blocked ? Math.max(1, Math.round(def.dmg * 0.16)) : def.dmg;
+    const hx = (defender.x + attacker.x) / 2 + (Math.random() - 0.5) * V.H * 0.1;
+    const hy = (hitY !== undefined) ? hitY : feetOf(defender) - V.H * (0.45 + Math.random() * 0.18);
+
+    defender.hp = Math.max(0, defender.hp - dmg);
+    defender.flashUntil = G.t + 150;
+
+    if (blocked){
+      defender.guard = Math.max(0, defender.guard - (def.heavy ? 30 : 17));
+      defender.guardHitAt = G.t;
+      defender.push += attacker.facing * V.H * 0.32;
+      defender.hurtUntil = Math.max(defender.hurtUntil, G.t + 150);
+      addSparks(hx, hy, 6, '#8fc3ff');
+      G.hitstop = Math.max(G.hitstop, 34);
+      G.shake = Math.max(G.shake, 3);
+      playSound('block');
       haptic('light');
+      spawnText(hx, hy - V.H * 0.1, 'блок', '#9fd0ff');
+      if (defender.guard <= 0) guardBreak(defender);
+    } else {
+      defender.hurtUntil = Math.max(defender.hurtUntil, G.t + (def.hitstun || 200));
+      defender.push += attacker.facing * (def.knock || 0.5) * V.H;
+      addSparks(hx, hy, def.heavy ? 22 : 12, '#ffd45e');
+      addSparks(hx, hy, def.heavy ? 10 : 5, '#ff5b6b');
+      G.hitstop = Math.max(G.hitstop, def.hitstop || 55);
+      G.shake = Math.max(G.shake, def.heavy ? 12 : 6);
+      G.flash = Math.max(G.flash, def.heavy ? 0.22 : 0.08);
+      playSound('hit');
+      haptic(def.heavy ? 'heavy' : 'medium');
+      spawnText(hx, hy - V.H * 0.12, '-' + dmg, '#ffffff');
+
+      attacker.combo++;
+      attacker.comboUntil = G.t + 1100;
+      if (attacker.combo === 2) G.fx.push({ kind:'ring', x:hx, y:hy, life:0.3, max:0.3, r0: V.H*0.05, r1: V.H*0.26, color:'255,255,255' });
+    }
+
+    attacker.super = Math.min(100, attacker.super + dmg * 1.5);
+    defender.super = Math.min(100, defender.super + dmg * 0.8);
+
+    if (defender.hp <= 0) ko(defender);
+    return true;
+  }
+
+  function guardBreak(f){
+    f.guard = 40;
+    f.guardBreakUntil = G.t + 700;
+    f.hurtUntil = Math.max(f.hurtUntil, G.t + 700);
+    f.blocking = false;
+    f.atk = null;
+    addSparks(f.x, feetOf(f) - V.H * 0.5, 20, '#8fc3ff');
+    spawnText(f.x, feetOf(f) - V.H * 0.9, 'БЛОК СЛОМАН', '#8fc3ff');
+    G.shake = Math.max(G.shake, 9);
+    playSound('hit');
+    haptic('heavy');
+  }
+
+  function spawnText(x, y, text, color){
+    G.fx.push({ kind:'text', x, y, text, color, life:0.8, max:0.8, vy:-70 * V.u });
+  }
+
+  function addSparks(x, y, count, color){
+    for (let i = 0; i < count; i++){
+      const a = Math.random() * Math.PI * 2;
+      const sp = (0.5 + Math.random() * 5.5) * V.u * 60;
+      G.fx.push({
+        kind:'spark', x, y,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp - 30 * V.u,
+        life: 0.35 + Math.random() * 0.45,
+        max: 0.8,
+        size: (1.4 + Math.random() * 3.4) * V.u * 1.7,
+        color
+      });
     }
   }
 
-  /* ---------- ИНПУТ: КНОПКИ ---------- */
-  let lastFireTap = 0;
-  let lastPunchTap = 0;
+  function ko(loser){
+    if (G.phase !== 'fight') return;
+    const winner = loser === D ? T : D;
 
-  function fireTap(){
-    const now = performance.now();
-    if (now - lastFireTap < 120) return;
-    lastFireTap = now;
-    fire();
+    G.phase = 'ko';
+    G.koAt = G.t;
+    G.koReal = realTime;
+    G.koWinner = winner.id;
+    G.koLoser = loser.id;
+    G.koReason = G.roundTime <= 0 ? 'time' : 'ko';
+
+    loser.atk = null;
+    loser.koStart = G.t;
+    loser.blocking = false;
+    loser.push = 0;
+
+    winner.atk = null;
+    winner.blocking = false;
+
+    if (winner === D) G.winsD++;
+    else G.winsT++;
+
+    G.hitstop = 0;
+    G.shake = 16;
+    G.flash = 0.55;
+    G.beams.length = 0;
+    playSound('ko');
+    haptic('heavy');
+    addSparks(loser.x, feetOf(loser) - V.H * 0.5, 30, '#ffd45e');
+    addSparks(loser.x, feetOf(loser) - V.H * 0.5, 18, '#ff4b6b');
+    updateSuperBtn(true);
   }
 
-  function punchTap(){
-    const now = performance.now();
-    if (now - lastPunchTap < 120) return;
-    lastPunchTap = now;
-    punch();
+  function onTimeout(){
+    if (G.phase !== 'fight') return;
+    G.roundTime = 0;
+    const dr = D.hp / D.maxHp;
+    const tr = T.hp / T.maxHp;
+    if (Math.abs(dr - tr) < 0.002){
+      G.phase = 'draw';
+      G.koReal = realTime;
+      G.koAt = G.t;
+      playSound('lose');
+      haptic('error');
+    } else if (dr > tr){
+      ko(T);
+    } else {
+      ko(D);
+    }
   }
 
-  fireBtn.addEventListener('pointerdown', function(e){ e.preventDefault(); fireTap(); });
-  fireBtn.addEventListener('click', fireTap);
-  btnPunch.addEventListener('pointerdown', function(e){ e.preventDefault(); punchTap(); });
-  btnPunch.addEventListener('click', punchTap);
+  function finishRound(){
+    if (G.winsD >= 2 || G.winsT >= 2) endMatch();
+    else startRound(G.round + 1);
+  }
 
-  function bindHold(node, flag){
-    node.addEventListener('pointerdown', function(e){
-      e.preventDefault();
-      G.denis[flag] = true;
-      node.classList.add('pressed');
+  function endMatch(){
+    G.phase = 'matchover';
+    const won = G.winsD > G.winsT;
+    const clean = G.winsT === 0;
+    const reward = won ? (clean ? 60 : 45) : 0;
+
+    if (won){
+      addCoins(reward);
+      state.best.battle = (state.best.battle || 0) + 1;
+      saveState();
+      renderRecords();
+    }
+    playSound(won ? 'win' : 'lose');
+    haptic(won ? 'success' : 'error');
+
+    showMiniResult({
+      title: won ? 'ПОБЕДА' : 'ПОРАЖЕНИЕ',
+      sub: 'Счёт ' + G.winsD + ' : ' + G.winsT +
+           (won ? (clean ? ' · сухая победа' : '') : ' · Танька сильнее'),
+      reward: won ? reward : undefined,
+      onAgain: function(){ gameBattle(); },
+      againLabel: 'Реванш',
+      exitLabel: 'Выход'
     });
-    function stop(e){
+  }
+
+  function startRound(n){
+    G.round = n;
+    G.phase = 'intro';
+    G.introAt = G.t;
+    G.introReal = realTime;
+    G.roundTime = 60;
+    G.hitstop = 0;
+    G.shake = 0;
+    G.flash = 0;
+    G.proj.length = 0;
+    G.beams.length = 0;
+    G.fx.length = 0;
+    G.ai.thinkAt = G.t + 1200;
+    G.ai.plan = 'neutral';
+    G.ai.planUntil = 0;
+    G.ai.skill = Math.min(0.8, 0.5 + (n - 1) * 0.07);
+
+    resetFighter(D, V.cw * 0.30);
+    resetFighter(T, V.cw * 0.70);
+    D.facing = 1;
+    T.facing = -1;
+    updateSuperBtn(true);
+  }
+
+  function resetFighter(f, x){
+    f.x = x;
+    f.airY = 0; f.vy = 0; f.grounded = true;
+    f.vx = 0; f.push = 0; f.moveDir = 0;
+    f.hp = f.maxHp;
+    f.hpGhost = f.maxHp;
+    f.super = 0;
+    f.guard = 100;
+    f.guardHitAt = 0;
+    f.guardBreakUntil = 0;
+    f.stamina = 100;
+    f.state = 'idle';
+    f.atk = null;
+    f.stage = 0;
+    f.lastAttackEnd = -9999;
+    f.blocking = false;
+    f.hurtUntil = 0;
+    f.invulnUntil = 0;
+    f.dodgeUntil = 0;
+    f.dodgeCd = 0;
+    f.flashUntil = 0;
+    f.trail.length = 0;
+    f.ammo = 6;
+    f.ammoTimer = 0;
+    f.charge = 3;
+    f.chargeTimer = 0;
+    f.fireCd = 0;
+    f.beamCd = 0;
+    f.combo = 0;
+    f.comboUntil = 0;
+    f.koStart = 0;
+  }
+
+  /* ---------- игрок ---------- */
+  function updatePlayer(){
+    const d = D;
+    if (G.phase !== 'fight'){
+      d.moveDir = 0;
+      d.blocking = false;
+      return;
+    }
+
+    d.blocking = input.block && d.grounded && !d.atk &&
+                 G.t >= d.hurtUntil && G.t >= d.dodgeUntil && G.t >= d.guardBreakUntil;
+
+    if (d.atk || !d.grounded || G.t < d.hurtUntil || G.t < d.dodgeUntil || G.t < d.guardBreakUntil){
+      d.moveDir = 0;
+    } else {
+      d.moveDir = (input.left ? -1 : 0) + (input.right ? 1 : 0);
+    }
+
+    if (G.t - input.punchAt <= 170){ input.punchAt = -1e9; pressPunch(d); }
+    if (G.t - input.jumpAt  <= 170){ input.jumpAt  = -1e9; tryJump(d); }
+    if (G.t - input.dodgeAt <= 170){ input.dodgeAt = -1e9; tryDodge(d); }
+    if (G.t - input.superAt <= 220){ input.superAt = -1e9; trySuper(d); }
+
+    const wantShoot = (G.t - input.shootAt <= 170) || (input.shootHeld && G.t >= d.fireCd);
+    if (wantShoot){
+      input.shootAt = -1e9;
+      if (tryShoot(d) && !input.shootHeld) input.shootAt = -1e9;
+    }
+  }
+
+  /* ---------- ИИ ---------- */
+  function updateAI(){
+    const t = T;
+    if (G.phase !== 'fight'){
+      t.moveDir = 0;
+      t.blocking = false;
+      return;
+    }
+
+    if (G.t < t.hurtUntil || G.t < t.dodgeUntil || G.t < t.guardBreakUntil){
+      t.moveDir = 0;
+      t.blocking = false;
+      return;
+    }
+
+    if (G.t >= G.ai.thinkAt){
+      G.ai.thinkAt = G.t + 105 + Math.random() * 95 - G.ai.skill * 40;
+      aiThink();
+    }
+
+    t.blocking = false;
+    if (t.atk){ t.moveDir = 0; return; }
+
+    if (G.t < G.ai.planUntil){
+      const dirTo = (D.x >= t.x) ? 1 : -1;
+      if (G.ai.plan === 'approach') t.moveDir = dirTo;
+      else if (G.ai.plan === 'retreat') t.moveDir = -dirTo;
+      else if (G.ai.plan === 'block') t.blocking = true;
+      else t.moveDir = 0;
+    } else {
+      G.ai.plan = 'neutral';
+      t.moveDir = 0;
+    }
+  }
+
+  function aiThink(){
+    const t = T, d = D;
+    const now = G.t;
+    const gap = Math.abs(t.x - d.x) - t.halfW - d.halfW;
+    const skill = G.ai.skill;
+
+    /* продолжение серии ударов */
+    if (t.atk && t.atk.def.chain){
+      if ((now - t.atk.start) > t.atk.def.startup * 0.5 && Math.random() < 0.42 + skill * 0.3){
+        t.atk.nextPunch = true;
+      }
+      return;
+    }
+
+    /* уклонение от пуль */
+    if (t.grounded && now >= t.dodgeCd && t.stamina >= 30){
+      for (let i = 0; i < G.proj.length; i++){
+        const p = G.proj[i];
+        if (p.owner !== 'denis') continue;
+        const toward = (p.vx > 0 && p.x < t.x) || (p.vx < 0 && p.x > t.x);
+        if (!toward) continue;
+        const dist = Math.abs(p.x - t.x);
+        const tti = dist / Math.abs(p.vx);
+        if (tti > 0.02 && tti < 0.28 && Math.random() < 0.28 + skill * 0.42){
+          tryDodge(t, p.vx > 0 ? 1 : -1);
+          return;
+        }
+      }
+    }
+
+    /* блок под замах игрока */
+    if (d.atk && (d.atk.def.kind || 'melee') === 'melee' && gap < 1.2 * V.H){
+      const ph = now - d.atk.start;
+      if (ph < d.atk.def.startup + 40 && Math.random() < 0.32 + skill * 0.3){
+        G.ai.plan = 'block';
+        G.ai.planUntil = now + 330;
+        return;
+      }
+    }
+
+    /* супер */
+    if (t.super >= 100 && gap < 2.8 * V.H && Math.random() < 0.38 + skill * 0.18){
+      trySuper(t);
+      return;
+    }
+
+    /* ближний бой */
+    if (gap < 0.56 * V.H){
+      const r = Math.random();
+      if (r < 0.16){ G.ai.plan = 'retreat'; G.ai.planUntil = now + 240; return; }
+      pressPunch(t);
+      return;
+    }
+
+    /* лазер с дистанции */
+    if (gap > 1.05 * V.H && t.charge > 0 && now >= t.beamCd && Math.random() < 0.34 + skill * 0.2){
+      tryShoot(t);
+      return;
+    }
+
+    /* при низком HP — держит дистанцию */
+    if (t.hp < 34 && gap < 1.7 * V.H && Math.random() < 0.55){
+      G.ai.plan = 'retreat';
+      G.ai.planUntil = now + 520;
+      return;
+    }
+
+    G.ai.plan = 'approach';
+    G.ai.planUntil = now + 380;
+  }
+
+  /* ---------- физика и таймеры ---------- */
+  function updateAttack(f, opp){
+    const a = f.atk;
+    if (!a) return;
+    const def = a.def;
+    const ph = G.t - a.start;
+
+    if (def.shot && !def.volley && !a.fired && ph >= def.startup){
+      a.fired = true;
+      fireProjectile(f, def);
+    }
+
+    if (def.volley){
+      for (let i = 0; i < def.volley.length; i++){
+        if (!a.volley[i] && ph >= def.startup + def.volley[i]){
+          a.volley[i] = true;
+          fireProjectile(f, def);
+        }
+      }
+    }
+
+    if (def.beam && !a.fired && ph >= def.startup){
+      a.fired = true;
+      fireBeam(f, def);
+    }
+
+    if (!def.beam && !def.shot && !a.hitDone && !a.missed && ph >= def.startup && ph <= def.startup + def.active){
+      if (G.t < opp.invulnUntil){
+        a.missed = true;
+      } else if (meleeHits(f, opp, def)){
+        a.hitDone = true;
+        applyHit(f, opp, def);
+      }
+    }
+
+    if (ph >= def.total){
+      f.atk = null;
+      f.lastAttackEnd = G.t;
+      f.state = 'idle';
+      if (a.nextPunch && a.def.chain){
+        startPunchStage(f, Math.min(2, f.stage + 1));
+      }
+    }
+  }
+
+  function stepPhysics(dt){
+    const dtS = dt / 1000;
+    const pair = [D, T];
+
+    for (let i = 0; i < pair.length; i++){
+      const f = pair[i];
+      const opp = f === D ? T : D;
+
+      f.halfW = V.H * (f.id === 'denis' ? 0.115 : 0.16);
+      faceOpponent(f, opp);
+
+      if (f.atk) updateAttack(f, opp);
+
+      const locked = f.atk || G.t < f.hurtUntil || G.t < f.dodgeUntil || G.t < f.guardBreakUntil;
+
+      /* горизонталь */
+      if (f.grounded){
+        if (!locked && !f.blocking){
+          const dir = f.moveDir || 0;
+          const sp = 300 * V.u * (dir === f.facing ? 1 : 0.8);
+          f.vx = approach(f.vx, dir * sp, 2600 * V.u * dtS);
+        } else {
+          f.vx = approach(f.vx, 0, 3200 * V.u * dtS);
+        }
+      } else {
+        const dir = f.moveDir || 0;
+        f.vx = approach(f.vx, dir * 250 * V.u, 1500 * V.u * dtS);
+      }
+
+      /* уворот перекрывает скорость */
+      if (G.t < f.dodgeUntil){
+        const prog = 1 - (f.dodgeUntil - G.t) / 380;
+        f.vx = f.dodgeDir * 560 * V.u * Math.max(0.22, 1 - prog);
+      }
+
+      /* прыжок */
+      if (!f.grounded){
+        f.vy += 3000 * V.u * dtS;
+        f.airY -= f.vy * dtS;
+        if (f.airY <= 0){
+          f.airY = 0;
+          f.vy = 0;
+          f.grounded = true;
+          addSparks(f.x, V.ground - 2, 5, '#b9a9c9');
+        }
+      }
+
+      /* позиция */
+      f.push *= Math.pow(0.86, dt / 16.67);
+      f.x += (f.vx + f.push) * dtS;
+
+      /* регенерация */
+      f.stamina = Math.min(100, f.stamina + 27 * dtS);
+      if (f.blocking) f.guard = Math.min(100, f.guard + 4 * dtS);
+      else if (G.t > f.guardHitAt + 600) f.guard = Math.min(100, f.guard + 24 * dtS);
+
+      if (f.hpGhost > f.hp) f.hpGhost = Math.max(f.hp, f.hpGhost - 34 * dtS);
+      else f.hpGhost = f.hp;
+
+      /* перезарядки */
+      if (f.id === 'denis'){
+        if (f.ammo < 6){
+          f.ammoTimer += dt;
+          if (f.ammoTimer >= 1050){ f.ammoTimer -= 1050; f.ammo++; }
+        } else f.ammoTimer = 0;
+      } else {
+        if (f.charge < 3){
+          f.chargeTimer += dt;
+          if (f.chargeTimer >= 3200){ f.chargeTimer -= 3200; f.charge++; }
+        } else f.chargeTimer = 0;
+      }
+
+      /* шлейф уворота */
+      if (G.t < f.dodgeUntil && G.t % 60 < dt){
+        f.trail.push({ x: f.x, until: G.t + 180 });
+      }
+      for (let k = f.trail.length - 1; k >= 0; k--){
+        if (f.trail[k].until <= G.t) f.trail.splice(k, 1);
+      }
+
+      /* состояние */
+      if (G.phase === 'ko'){
+        f.state = (f.id === G.koLoser) ? 'ko' : 'victory';
+      } else if (f.state === 'draw'){
+        f.state = 'idle';
+      } else if (f.atk) f.state = 'attack';
+      else if (G.t < f.hurtUntil) f.state = 'hurt';
+      else if (G.t < f.dodgeUntil) f.state = 'dodge';
+      else if (!f.grounded) f.state = 'jump';
+      else if (f.blocking) f.state = 'block';
+      else if (Math.abs(f.vx) > 35 * V.u) f.state = 'walk';
+      else f.state = 'idle';
+
+      if (f.combo > 0 && G.t > f.comboUntil) f.combo = 0;
+    }
+
+    /* коллизия тел */
+    const minDist = D.halfW + T.halfW;
+    const dx = T.x - D.x;
+    if (Math.abs(dx) < minDist){
+      const s = dx >= 0 ? 1 : -1;
+      const push = (minDist - Math.abs(dx)) / 2;
+      D.x -= s * push;
+      T.x += s * push;
+    }
+
+    for (let i = 0; i < pair.length; i++){
+      const f = pair[i];
+      const margin = (f.id === 'denis' ? V.H * 0.20 : V.H * 0.31) + 4;
+      f.x = Math.max(margin, Math.min(V.cw - margin, f.x));
+    }
+  }
+
+  function updateProjectiles(dt){
+    const dtS = dt / 1000;
+    for (let i = G.proj.length - 1; i >= 0; i--){
+      const p = G.proj[i];
+      if (!isFinite(p.x) || !isFinite(p.vx)){
+        G.proj.splice(i, 1);
+        continue;
+      }
+      p.x += p.vx * dtS;
+      p.spin += dtS * 14;
+
+      if (p.x < -V.H * 0.3 || p.x > V.cw + V.H * 0.3){
+        G.proj.splice(i, 1);
+        continue;
+      }
+
+      const target = p.owner === 'denis' ? T : D;
+      const feet = feetOf(target);
+      const top = feet - V.H * 0.92;
+      const bottom = feet - V.H * 0.04;
+
+      if (G.phase === 'fight' && p.y >= top && p.y <= bottom &&
+          Math.abs(p.x - target.x) <= target.halfW + p.r &&
+          G.t >= target.invulnUntil){
+        const attacker = p.owner === 'denis' ? D : T;
+        G.proj.splice(i, 1);
+        applyHit(attacker, target, {
+          dmg: p.dmg,
+          hitstun: p.hitstun,
+          knock: p.knock,
+          hitstop: p.hitstop,
+          heavy: p.heavy
+        }, p.y);
+      }
+    }
+  }
+
+  function updateFx(dt){
+    const dtS = dt / 1000;
+    for (let i = G.fx.length - 1; i >= 0; i--){
+      const fx = G.fx[i];
+      fx.life -= dtS;
+      if (fx.life <= 0){ G.fx.splice(i, 1); continue; }
+      if (fx.kind === 'spark'){
+        fx.x += fx.vx * dtS;
+        fx.y += fx.vy * dtS;
+        fx.vy += 620 * V.u * dtS;
+        fx.vx *= 0.985;
+      } else if (fx.kind === 'text'){
+        fx.y += fx.vy * dtS;
+      }
+    }
+  }
+
+  /* ---------- отрисовка ---------- */
+  function spriteOk(sp){
+    return !!(sp && sp.ok && sp.el && sp.el.complete && sp.el.naturalWidth > 0);
+  }
+
+  function paintSprite(sp, art, x, feetY, height, mirror, alpha, filter, rot, scaleX, scaleY){
+    const dw = height * (art.sw / art.sh);
+    ctx.save();
+    ctx.globalAlpha = (alpha === undefined) ? 1 : alpha;
+    ctx.translate(x, feetY);
+    if (rot) ctx.rotate(rot);
+    if (scaleX || scaleY) ctx.scale(scaleX || 1, scaleY || 1);
+    if (mirror) ctx.scale(-1, 1);
+    if (filter && 'filter' in ctx) ctx.filter = filter;
+
+    if (spriteOk(sp)){
+      ctx.drawImage(sp.el, art.sx, art.sy, art.sw, art.sh, -dw / 2, -height, dw, height);
+    } else {
+      /* аварийная заглушка, если файл не загрузился */
+      ctx.fillStyle = 'rgba(120,90,140,0.85)';
+      ctx.beginPath();
+      ctx.ellipse(0, -height * 0.55, height * 0.12, height * 0.34, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(0, -height * 0.92, height * 0.10, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawStage(){
+    if (backdrop) ctx.drawImage(backdrop, 0, 0, V.cw, V.ch);
+
+    /* лампы и их свет */
+    const lamps = [[V.cw * 0.24, V.ch * 0.15], [V.cw * 0.76, V.ch * 0.15]];
+    for (let i = 0; i < lamps.length; i++){
+      const lx = lamps[i][0], ly = lamps[i][1];
+      const flick = 0.86 + Math.sin(G.t * 0.005 + i * 2) * 0.05 + (Math.random() < 0.008 ? -0.25 : 0);
+      const rg = ctx.createRadialGradient(lx, ly, 2, lx, ly + V.H * 0.3, V.H * 1.25);
+      rg.addColorStop(0, 'rgba(255,225,170,' + (0.30 * flick).toFixed(3) + ')');
+      rg.addColorStop(0.45, 'rgba(255,190,120,' + (0.10 * flick).toFixed(3) + ')');
+      rg.addColorStop(1, 'rgba(255,170,90,0)');
+      ctx.fillStyle = rg;
+      ctx.fillRect(lx - V.H * 1.3, ly, V.H * 2.6, V.H * 1.7);
+
+      ctx.fillStyle = 'rgba(255,240,200,' + (0.85 * flick).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.arc(lx, ly + V.ch * 0.05, V.H * 0.018, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    /* неоновая вывеска */
+    const signW = Math.min(V.cw * 0.42, V.H * 2.0);
+    const signH = V.H * 0.30;
+    const signX = V.cw / 2;
+    const signY = V.ch * 0.175;
+    const flicker = (Math.sin(G.t * 0.004) + Math.sin(G.t * 0.0087)) > 1.55 ? 0.6 : 1;
+    fillRound(signX - signW / 2, signY - signH / 2, signW, signH, 10, 'rgba(12,5,16,0.7)');
+    rr(signX - signW / 2, signY - signH / 2, signW, signH, 10);
+    ctx.strokeStyle = 'rgba(255,60,120,0.32)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '900 ' + Math.round(V.H * 0.13) + 'px Montserrat, "Segoe UI", sans-serif';
+    ctx.globalAlpha = flicker;
+    ctx.shadowColor = '#ff2f78';
+    ctx.shadowBlur = 20;
+    ctx.fillStyle = '#ffc4dc';
+    ctx.fillText('ПОДВАЛ', signX, signY);
+    ctx.shadowBlur = 6;
+    ctx.fillStyle = '#fff2f7';
+    ctx.fillText('ПОДВАЛ', signX, signY);
+    ctx.restore();
+
+    /* пыль */
+    for (let i = 0; i < G.motes.length; i++){
+      const m = G.motes[i];
+      const px = m.x + Math.sin(G.t * 0.0006 + m.ph) * 14;
+      const py = (m.y - G.t * 0.001 * m.sp) % V.ch;
+      const y = py < 0 ? py + V.ch : py;
+      ctx.fillStyle = 'rgba(255,230,200,0.16)';
+      ctx.beginPath();
+      ctx.arc(px, y, m.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function drawFighter(f, opp){
+    const H = V.H;
+    const now = G.t;
+    const feet = feetOf(f);
+    const isDenis = f.id === 'denis';
+    const art = isDenis
+      ? ((f.atk || G.t < f.hurtUntil || f.super >= 100) ? FIGHT_ART.denisAngry : FIGHT_ART.denis)
+      : FIGHT_ART.tanka;
+    const sp = isDenis
+      ? (art === FIGHT_ART.denisAngry ? IMG.denisAngry : IMG.denis)
+      : IMG.tanka;
+
+    /* тень */
+    const shadowScale = Math.max(0.35, 1 - f.airY / (H * 1.4));
+    ctx.save();
+    ctx.fillStyle = 'rgba(0,0,0,' + (0.5 * shadowScale).toFixed(3) + ')';
+    ctx.beginPath();
+    ctx.ellipse(f.x, V.ground - H * 0.01, f.halfW * 1.7 * shadowScale, H * 0.045 * shadowScale, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    /* шлейф уворота */
+    for (let i = 0; i < f.trail.length; i++){
+      paintSprite(sp, art, f.trail[i].x, feet, H, f.facing !== -1, 0.12, null, 0, 1, 1);
+    }
+
+    /* поза */
+    let lean = 0;
+    let bob = Math.sin(now * 0.004 + (isDenis ? 0 : 1.7)) * H * 0.006;
+    let lunge = 0;
+    let rot = 0;
+    let scaleX = 1, scaleY = 1;
+
+    if (f.state === 'walk') lean = (f.vx / (300 * V.u)) * 0.045;
+    if (f.state === 'jump'){ scaleY = 1.02; scaleX = 0.98; }
+    if (f.state === 'hurt'){
+      lean = -f.facing * 0.06;
+      bob += Math.sin(now * 0.09) * H * 0.006;
+    }
+    if (f.state === 'block'){ lean = -f.facing * 0.03; bob += H * 0.01; }
+    if (f.state === 'dodge'){ lean = f.dodgeDir * 0.16; }
+
+    if (f.atk){
+      const ph = now - f.atk.start;
+      const d = f.atk.def;
+      if (ph >= d.startup && ph <= d.startup + d.active + 90){
+        const k = Math.min(1, (ph - d.startup) / Math.max(1, d.active));
+        lunge = f.facing * (d.lunge || 0.05) * H * (k < 0.5 ? k * 2 : (1 - k) * 2);
+        lean += f.facing * 0.04;
+      }
+    }
+
+    if (f.state === 'ko'){
+      const p = Math.min(1, (now - f.koStart) / 700);
+      const e = 1 - Math.pow(1 - p, 2);
+      rot = Math.PI * 0.47 * e;
+      bob = H * 0.02 * e;
+    }
+
+    const mirror = f.facing !== -1;
+    if (mirror) lean = -lean;
+
+    const golden = f.super >= 100 && G.phase === 'fight';
+    if (golden){
+      const rg = ctx.createRadialGradient(f.x, feet - H * 0.5, H * 0.05, f.x, feet - H * 0.5, H * 0.75);
+      rg.addColorStop(0, 'rgba(255,210,90,0.18)');
+      rg.addColorStop(1, 'rgba(255,210,90,0)');
+      ctx.fillStyle = rg;
+      ctx.fillRect(f.x - H * 0.8, feet - H * 1.5, H * 1.6, H * 1.8);
+    }
+
+    const hurtFlash = G.t < f.flashUntil;
+    const filter = hurtFlash ? 'brightness(1.9) saturate(1.35)' : (f.state === 'victory' ? 'brightness(1.12)' : '');
+    const drawH = isDenis ? H : H * 0.82;
+    paintSprite(sp, art, f.x + lunge, feet + bob, drawH, mirror, 1, filter, rot + lean, scaleX, scaleY);
+
+    if (f.blocking && G.phase === 'fight'){
+      drawShield(f, G.t < f.guardHitAt + 180);
+    }
+
+    /* оружие Дениса */
+    if (isDenis){
+      const showGun = (f.atk && f.atk.kind !== 'p1' && f.atk.kind !== 'p2' && f.atk.kind !== 'p3') ||
+                      G.t < f.shootFlash || (f.atk && f.atk.def.lunge);
+      if (showGun && f.state !== 'ko'){
+        drawPistol(f);
+      }
+    } else {
+      drawFists(f);
+    }
+
+    /* эффекты ударов */
+    if (f.atk){
+      const ph = now - f.atk.start;
+      const d = f.atk.def;
+      if ((d.kind || 'melee') === 'melee' && ph >= d.startup - 20 && ph <= d.startup + d.active + 40){
+        drawPunchArc(f, d, ph);
+      }
+      if (d.beam && ph < d.startup){
+        drawBeamCharge(f, ph / d.startup);
+      }
+      if (d.shot && ph < d.startup + 40 && f.id === 'denis'){
+        drawAimLine(f);
+      }
+    }
+
+    if (f.state === 'ko') { /* тело уже упало — без покачивания */ }
+  }
+
+  function drawPistol(f){
+    const H = V.H;
+    const cx = f.x + f.facing * H * 0.16;
+    const cy = feetOf(f) - H * 0.55;
+    const recoil = G.t < f.shootFlash ? -f.facing * H * 0.025 : 0;
+    ctx.save();
+    ctx.translate(cx + recoil, cy);
+    ctx.rotate(-f.facing * 0.06);
+    ctx.scale(f.facing, 1);
+    ctx.lineJoin = 'round';
+
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(-H * 0.035, -H * 0.038, H * 0.235, H * 0.085);
+
+    ctx.fillStyle = '#3a3a48';
+    ctx.fillRect(-H * 0.03, -H * 0.032, H * 0.21, H * 0.052);
+    ctx.fillStyle = '#8f8fa8';
+    ctx.fillRect(-H * 0.03, -H * 0.032, H * 0.21, H * 0.016);
+
+    ctx.fillStyle = '#6b4a2e';
+    ctx.fillRect(-H * 0.028, H * 0.014, H * 0.058, H * 0.10);
+
+    ctx.fillStyle = '#c9a227';
+    ctx.fillRect(H * 0.155, -H * 0.026, H * 0.025, H * 0.04);
+    ctx.fillStyle = '#f7e08a';
+    ctx.fillRect(H * 0.172, -H * 0.022, H * 0.008, H * 0.032);
+
+    ctx.restore();
+  }
+
+  function drawShield(f, hit){
+    const H = V.H;
+    const cx = f.x;
+    const cy = feetOf(f) - H * 0.52;
+    const r = H * 0.44;
+    const base = f.facing > 0 ? 0 : Math.PI;
+    const weak = f.guard < 30;
+
+    ctx.save();
+    ctx.lineCap = 'round';
+    ctx.globalCompositeOperation = 'lighter';
+
+    ctx.strokeStyle = f.id === 'denis'
+      ? 'rgba(120,180,255,' + (hit ? 0.85 : 0.34) + ')'
+      : 'rgba(255,120,190,' + (hit ? 0.85 : 0.34) + ')';
+    ctx.lineWidth = H * (hit ? 0.045 : 0.03);
+    ctx.shadowColor = f.id === 'denis' ? '#5b9bff' : '#ff5aa8';
+    ctx.shadowBlur = hit ? 22 : 12;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, base - 0.95, base + 0.95);
+    ctx.stroke();
+
+    if (weak){
+      ctx.strokeStyle = 'rgba(255,90,90,' + (0.4 + 0.3 * Math.sin(G.t * 0.02)).toFixed(2) + ')';
+      ctx.lineWidth = H * 0.012;
+      ctx.setLineDash([H * 0.03, H * 0.03]);
+      ctx.beginPath();
+      ctx.arc(cx, cy, r + H * 0.02, base - 0.95, base + 0.95);
+      ctx.stroke();
+    }
+
+    /* мягкое свечение перед бойцом */
+    const rg = ctx.createRadialGradient(
+      cx + f.facing * r * 0.55, cy, H * 0.02,
+      cx + f.facing * r * 0.55, cy, r * 0.75
+    );
+    rg.addColorStop(0, f.id === 'denis' ? 'rgba(120,180,255,0.16)' : 'rgba(255,120,190,0.16)');
+    rg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = rg;
+    ctx.beginPath();
+    ctx.arc(cx + f.facing * r * 0.55, cy, r * 0.75, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  function drawFists(f){    const H = V.H;
+    const charging = (f.atk && f.atk.def.beam && (G.t - f.atk.start) < f.atk.def.startup);
+    const punchy = f.atk && (f.atk.def.kind || 'melee') === 'melee';
+    const glow = charging ? 1 : (punchy ? 0.8 : 0.35);
+    const pulse = 0.7 + 0.3 * Math.sin(G.t * 0.012);
+    const cx = f.x + f.facing * H * 0.20;
+    const cy = feetOf(f) - H * 0.55;
+
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    const rg = ctx.createRadialGradient(cx, cy, 0, cx, cy, H * 0.13 * (charging ? 1.6 : 1));
+    rg.addColorStop(0, 'rgba(255,120,190,' + (0.85 * glow * pulse).toFixed(3) + ')');
+    rg.addColorStop(0.45, 'rgba(255,40,120,' + (0.45 * glow).toFixed(3) + ')');
+    rg.addColorStop(1, 'rgba(255,40,120,0)');
+    ctx.fillStyle = rg;
+    ctx.beginPath();
+    ctx.arc(cx, cy, H * 0.14 * (charging ? 1.7 : 1), 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawPunchArc(f, def, ph){
+    const H = V.H;
+    const progress = Math.min(1, Math.max(0, (ph - def.startup) / Math.max(1, def.active)));
+    const r = H * (def.reach || 0.7) * (0.55 + progress * 0.45);
+    const a = (1 - progress) * 0.8;
+    ctx.save();
+    ctx.translate(f.x, feetOf(f) - H * 0.52);
+    ctx.scale(f.facing, 1);
+    ctx.strokeStyle = 'rgba(255,255,255,' + a.toFixed(2) + ')';
+    ctx.lineWidth = H * 0.035;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.arc(0, 0, r, -0.5, 0.6);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,210,90,' + (a * 0.6).toFixed(2) + ')';
+    ctx.lineWidth = H * 0.02;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawAimLine(f){
+    const H = V.H;
+    const y = feetOf(f) - H * 0.58;
+    const x1 = f.x + f.facing * H * 0.30;
+    const x2 = x1 + f.facing * H * 0.75;
+    ctx.save();
+    ctx.setLineDash([H * 0.03, H * 0.03]);
+    ctx.strokeStyle = 'rgba(255,220,120,0.32)';
+    ctx.lineWidth = Math.max(1, H * 0.008);
+    ctx.beginPath();
+    ctx.moveTo(x1, y);
+    ctx.lineTo(x2, y);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawBeamCharge(f, k){
+    const H = V.H;
+    const cx = f.x + f.facing * H * 0.2;
+    const cy = feetOf(f) - H * 0.58;
+    const r = H * 0.05 + H * 0.09 * k;
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    const rg = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 2.2);
+    rg.addColorStop(0, 'rgba(255,220,240,' + (0.55 + 0.45 * k).toFixed(3) + ')');
+    rg.addColorStop(0.4, 'rgba(255,70,150,' + (0.5 * k + 0.2).toFixed(3) + ')');
+    rg.addColorStop(1, 'rgba(255,70,150,0)');
+    ctx.fillStyle = rg;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 2.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    ctx.setLineDash([H * 0.035, H * 0.035]);
+    ctx.strokeStyle = 'rgba(255,90,160,' + (0.12 + 0.4 * k).toFixed(3) + ')';
+    ctx.lineWidth = Math.max(1, H * 0.01);
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + f.facing * V.cw, cy);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawProjectiles(){
+    for (let i = 0; i < G.proj.length; i++){
+      const p = G.proj[i];
+      if (!isFinite(p.x) || !isFinite(p.y) || !isFinite(p.vx)){
+        G.proj.splice(i, 1);
+        i--;
+        continue;
+      }
+      const dir = Math.sign(p.vx) || 1;
+      const len = V.H * 0.22;
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      const grad = ctx.createLinearGradient(p.x - dir * len, p.y, p.x, p.y);
+      grad.addColorStop(0, 'rgba(255,190,60,0)');
+      grad.addColorStop(1, 'rgba(255,240,160,0.95)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = Math.max(1.5, V.H * 0.016);
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(p.x - dir * len, p.y);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+
+      ctx.fillStyle = '#fff6cf';
+      ctx.shadowColor = '#ffcf4a';
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function drawBeams(){
+    for (let i = G.beams.length - 1; i >= 0; i--){
+      const b = G.beams[i];
+      if (G.t >= b.until){ G.beams.splice(i, 1); continue; }
+      const k = (b.until - G.t) / 260;
+      const x1 = b.x;
+      const x2 = b.dir > 0 ? V.cw : 0;
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineCap = 'round';
+
+      const g1 = ctx.createLinearGradient(0, b.y - b.w, 0, b.y + b.w);
+      g1.addColorStop(0, 'rgba(' + b.color + ',0)');
+      g1.addColorStop(0.5, 'rgba(' + b.color + ',' + (0.55 * k).toFixed(3) + ')');
+      g1.addColorStop(1, 'rgba(' + b.color + ',0)');
+      ctx.strokeStyle = g1;
+      ctx.lineWidth = b.w * 2;
+      ctx.beginPath();
+      ctx.moveTo(x1, b.y);
+      ctx.lineTo(x2, b.y);
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(255,245,250,' + (0.95 * k).toFixed(3) + ')';
+      ctx.lineWidth = b.w * 0.35;
+      ctx.beginPath();
+      ctx.moveTo(x1, b.y);
+      ctx.lineTo(x2, b.y);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  function drawFx(){
+    for (let i = 0; i < G.fx.length; i++){
+      const fx = G.fx[i];
+      const k = Math.max(0, fx.life / fx.max);
+      if (fx.kind === 'spark'){
+        ctx.save();
+        ctx.globalAlpha = k;
+        ctx.fillStyle = fx.color;
+        ctx.shadowColor = fx.color;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(fx.x, fx.y, fx.size * k, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      } else if (fx.kind === 'text'){
+        ctx.save();
+        ctx.globalAlpha = Math.min(1, k * 1.6);
+        ctx.textAlign = 'center';
+        ctx.font = '900 ' + Math.round(V.H * 0.095) + 'px Montserrat, sans-serif';
+        ctx.lineWidth = Math.max(2, V.H * 0.018);
+        ctx.strokeStyle = 'rgba(0,0,0,0.75)';
+        ctx.strokeText(fx.text, fx.x, fx.y);
+        ctx.fillStyle = fx.color;
+        ctx.fillText(fx.text, fx.x, fx.y);
+        ctx.restore();
+      } else if (fx.kind === 'flash'){
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalAlpha = k;
+        const rg = ctx.createRadialGradient(fx.x, fx.y, 0, fx.x, fx.y, fx.size);
+        rg.addColorStop(0, 'rgba(255,250,210,1)');
+        rg.addColorStop(0.4, 'rgba(255,200,90,0.7)');
+        rg.addColorStop(1, 'rgba(255,160,40,0)');
+        ctx.fillStyle = rg;
+        ctx.beginPath();
+        ctx.arc(fx.x, fx.y, fx.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      } else if (fx.kind === 'ring'){
+        ctx.save();
+        ctx.globalAlpha = k * 0.7;
+        ctx.strokeStyle = 'rgba(' + fx.color + ',1)';
+        ctx.lineWidth = Math.max(1.5, V.H * 0.02);
+        ctx.beginPath();
+        ctx.arc(fx.x, fx.y, fx.r0 + (fx.r1 - fx.r0) * (1 - k), 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+
+  /* ---------- HUD ---------- */
+  function drawHealthBar(f, x, y, w, h, right, s){
+    const ratio = Math.max(0, f.hp / f.maxHp);
+    const ghost = Math.max(ratio, Math.max(0, f.hpGhost / f.maxHp));
+    const isDenis = f.id === 'denis';
+
+    /* подложка */
+    fillRound(x, y, w, h, h / 2, 'rgba(5,3,8,0.9)');
+
+    ctx.save();
+    rr(x, y, w, h, h / 2);
+    ctx.clip();
+
+    /* след урона */
+    ctx.fillStyle = 'rgba(255,235,240,0.55)';
+    const gw = w * ghost;
+    ctx.fillRect(right ? x + w - gw : x, y, gw, h);
+
+    /* заполнение */
+    const fw = w * ratio;
+    const grad = ctx.createLinearGradient(x, y, x, y + h);
+    if (ratio > 0.55){
+      if (isDenis){ grad.addColorStop(0, '#7bffb2'); grad.addColorStop(1, '#1fae63'); }
+      else { grad.addColorStop(0, '#ff8fc4'); grad.addColorStop(1, '#c2185b'); }
+    } else if (ratio > 0.25){
+      grad.addColorStop(0, '#ffe27a');
+      grad.addColorStop(1, '#c99200');
+    } else {
+      grad.addColorStop(0, '#ff7373');
+      grad.addColorStop(1, '#a80f24');
+    }
+    ctx.fillStyle = grad;
+    ctx.fillRect(right ? x + w - fw : x, y, fw, h);
+
+    /* блик */
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    ctx.fillRect(right ? x + w - fw : x, y, fw, h * 0.36);
+    ctx.restore();
+
+    /* рамка */
+    rr(x, y, w, h, h / 2);
+    ctx.strokeStyle = ratio <= 0.25 ? 'rgba(255,80,80,0.75)' : 'rgba(255,255,255,0.16)';
+    ctx.lineWidth = Math.max(1, s);
+    ctx.stroke();
+
+    /* супер-полоса */
+    const sy = y + h + Math.max(3, 4 * s);
+    const sw = w * 0.54;
+    const sx = right ? x + w - sw : x;
+    const sh = Math.max(3, 4 * s);
+    fillRound(sx, sy, sw, sh, sh / 2, 'rgba(0,0,0,0.55)');
+
+    const sr = Math.min(1, f.super / 100);
+    if (sr > 0){
+      const ready = sr >= 1;
+      ctx.save();
+      if (ready){
+        ctx.shadowColor = '#ffd35e';
+        ctx.shadowBlur = 10;
+      }
+      const sg = ctx.createLinearGradient(sx, sy, sx + sw, sy);
+      sg.addColorStop(0, ready ? '#ffe79a' : '#a97b23');
+      sg.addColorStop(1, ready ? '#ffb300' : '#6d4a12');
+      fillRound(right ? x + w - sw * sr : sx, sy, sw * sr, sh, sh / 2, sg);
+      ctx.restore();
+    }
+    rr(sx, sy, sw, sh, sh / 2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    /* патроны / заряды */
+    const dotR = Math.max(1.6, 2.2 * s);
+    const dotY = sy + sh + Math.max(3, 4 * s);
+    const total = isDenis ? 6 : 3;
+    const have = isDenis ? f.ammo : f.charge;
+    for (let i = 0; i < total; i++){
+      const dx = right ? (x + w - dotR - i * (dotR * 3)) : (x + dotR + i * (dotR * 3));
+      ctx.beginPath();
+      ctx.arc(dx, dotY, dotR, 0, Math.PI * 2);
+      ctx.fillStyle = i < have
+        ? (isDenis ? '#ffe066' : '#ff74b4')
+        : 'rgba(255,255,255,0.16)';
+      ctx.fill();
+    }
+
+    /* имя и пипсы */
+    ctx.save();
+    ctx.font = '900 ' + Math.max(9, Math.round(11 * s)) + 'px Montserrat, sans-serif';
+    ctx.textBaseline = 'alphabetic';
+    ctx.textAlign = right ? 'right' : 'left';
+    ctx.fillStyle = 'rgba(245,236,252,0.92)';
+    ctx.shadowColor = 'rgba(0,0,0,0.9)';
+    ctx.shadowBlur = 6;
+    ctx.fillText(f.label, right ? x + w : x, y - Math.max(4, 6 * s));
+    ctx.restore();
+
+    const wins = isDenis ? G.winsD : G.winsT;
+    for (let i = 0; i < 2; i++){
+      const px = right
+        ? x + Math.max(8, 10 * s) + i * Math.max(9, 12 * s)
+        : x + w - Math.max(8, 10 * s) - i * Math.max(9, 12 * s);
+      const py = dotY;
+      ctx.beginPath();
+      ctx.moveTo(px, py - Math.max(2.5, 3 * s));
+      ctx.lineTo(px + Math.max(2.5, 3 * s), py);
+      ctx.lineTo(px, py + Math.max(2.5, 3 * s));
+      ctx.lineTo(px - Math.max(2.5, 3 * s), py);
+      ctx.closePath();
+      ctx.fillStyle = i < wins ? '#ffd35e' : 'rgba(255,255,255,0.18)';
+      ctx.fill();
+    }
+  }
+
+  function drawTimer(s){
+    const w = 58 * s, h = 34 * s;
+    const x = V.cw / 2 - w / 2;
+    const y = 10 * s;
+    fillRound(x, y, w, h, 11 * s, 'rgba(6,4,10,0.92)');
+    rr(x, y, w, h, 11 * s);
+    const low = G.roundTime <= 10;
+    ctx.strokeStyle = low ? 'rgba(255,70,70,0.75)' : 'rgba(255,255,255,0.16)';
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+    if (low){
+      ctx.save();
+      ctx.shadowColor = '#ff3333';
+      ctx.shadowBlur = 14;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '900 ' + Math.max(18, Math.round(22 * s)) + 'px Montserrat, sans-serif';
+    ctx.fillStyle = low ? '#ff5252' : '#ffffff';
+    ctx.fillText(Math.max(0, Math.ceil(G.roundTime)).toString(), V.cw / 2, y + h / 2 + 1);
+    ctx.restore();
+
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.font = '800 ' + Math.max(7, Math.round(7.5 * s)) + 'px Montserrat, sans-serif';
+    ctx.fillStyle = 'rgba(210,195,225,0.55)';
+    ctx.fillText('ДО 2 ПОБЕД', V.cw / 2, y + h + 10 * s);
+    ctx.restore();
+  }
+
+  function drawCombo(){
+    const pairs = [[D, V.cw * 0.28, '#ffd45e'], [T, V.cw * 0.72, '#ff74b4']];
+    for (let i = 0; i < pairs.length; i++){
+      const f = pairs[i][0];
+      if (f.combo < 2 || G.t > f.comboUntil) continue;
+      const x = pairs[i][1];
+      const y = V.ch * 0.40;
+      const pop = Math.min(1, (f.comboUntil - G.t) / 120);
+      ctx.save();
+      ctx.textAlign = 'center';
+      ctx.font = '900 ' + Math.round(V.H * 0.15) + 'px Montserrat, sans-serif';
+      ctx.fillStyle = pairs[i][2];
+      ctx.shadowColor = 'rgba(0,0,0,0.85)';
+      ctx.shadowBlur = 10;
+      ctx.globalAlpha = 0.95;
+      ctx.fillText(f.combo + 'x', x, y);
+      ctx.font = '900 ' + Math.round(V.H * 0.055) + 'px Montserrat, sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.fillText('КОМБО', x, y + V.H * 0.07);
+      ctx.restore();
+    }
+  }
+
+  function drawHud(){
+    const s = Math.max(0.78, Math.min(1.12, V.cw / 520));
+    const pad = 14 * s;
+    const barH = 14 * s;
+    const barW = Math.min(V.cw * 0.40, (V.cw - pad * 2 - 92 * s) / 2);
+    const y = 10 * s + 14 * s;
+
+    drawHealthBar(D, pad, y, barW, barH, false, s);
+    drawHealthBar(T, V.cw - pad - barW, y, barW, barH, true, s);
+
+    if (D.ammo <= 0 && G.phase === 'fight'){
+      ctx.save();
+      ctx.textAlign = 'left';
+      ctx.font = '800 ' + Math.max(7, Math.round(8 * s)) + 'px Montserrat, sans-serif';
+      ctx.fillStyle = 'rgba(255,200,120,0.75)';
+      ctx.fillText('ПЕРЕЗАРЯДКА', pad, y + barH + 22 * s);
+      ctx.restore();
+    }
+
+    drawTimer(s);
+
+    /* супер готов */
+    if (D.super >= 100 && G.phase === 'fight'){
+      ctx.save();
+      ctx.textAlign = 'left';
+      ctx.font = '900 ' + Math.round(8 * s) + 'px Montserrat, sans-serif';
+      ctx.fillStyle = 'rgba(255,220,120,' + (0.6 + 0.4 * Math.sin(G.t * 0.012)).toFixed(2) + ')';
+      ctx.fillText('СУПЕР ГОТОВ', pad, y + barH + 22 * s);
+      ctx.restore();
+    }
+
+    drawCombo();
+  }
+
+  function drawPortrait(sp, art, x, y, w, h, alpha){
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(x, y, w, h);
+    ctx.clip();
+    if (spriteOk(sp)){
+      const scale = Math.max(w / art.sw, h / art.sh);
+      const dw = art.sw * scale;
+      const dh = art.sh * scale;
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(sp.el, art.sx, art.sy, art.sw, art.sh,
+        x + (w - dw) / 2, y + (h - dh) / 2 + h * 0.01, dw, dh);
+    } else {
+      ctx.fillStyle = 'rgba(120,80,150,0.35)';
+      ctx.fillRect(x, y, w, h);
+    }
+    ctx.restore();
+  }
+
+  function drawIntro(){
+    const elapsed = G.t - G.introAt;
+    let a = 1;
+    if (elapsed > 1080) a = Math.max(0, 1 - (elapsed - 1080) / 380);
+
+    ctx.save();
+    ctx.globalAlpha = a;
+    ctx.fillStyle = 'rgba(4,2,8,0.8)';
+    ctx.fillRect(0, 0, V.cw, V.ch);
+
+    const pw = V.cw * 0.46;
+    drawPortrait(IMG.denisFace, FIGHT_ART.denisFace, -V.cw * 0.03, 0, pw, V.ch, 0.9);
+    drawPortrait(IMG.tankaFace, FIGHT_ART.tankaFace, V.cw - pw + V.cw * 0.03, 0, pw, V.ch, 0.9);
+
+    const fadeL = ctx.createLinearGradient(V.cw * 0.42, 0, V.cw * 0.5, 0);
+    fadeL.addColorStop(0, 'rgba(4,2,8,0)');
+    fadeL.addColorStop(1, 'rgba(4,2,8,0.85)');
+    ctx.fillStyle = fadeL;
+    ctx.fillRect(V.cw * 0.42, 0, V.cw * 0.08, V.ch);
+
+    const fadeR = ctx.createLinearGradient(V.cw * 0.58, 0, V.cw * 0.5, 0);
+    fadeR.addColorStop(0, 'rgba(4,2,8,0)');
+    fadeR.addColorStop(1, 'rgba(4,2,8,0.85)');
+    ctx.fillStyle = fadeR;
+    ctx.fillRect(V.cw * 0.5, 0, V.cw * 0.08, V.ch);
+
+    const cx = V.cw / 2;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    ctx.font = '900 ' + Math.round(V.H * 0.16) + 'px Montserrat, sans-serif';
+    ctx.fillStyle = '#ff3b6b';
+    ctx.shadowColor = '#ff3b6b';
+    ctx.shadowBlur = 26;
+    ctx.fillText('VS', cx, V.ch * 0.46);
+    ctx.shadowBlur = 0;
+
+    ctx.font = '900 ' + Math.round(V.H * 0.075) + 'px Montserrat, sans-serif';
+    ctx.fillStyle = 'rgba(245,236,252,0.92)';
+    ctx.fillText('РАУНД ' + G.round, cx, V.ch * 0.60);
+
+    ctx.font = '900 ' + Math.round(V.H * 0.062) + 'px Montserrat, sans-serif';
+    ctx.fillStyle = 'rgba(245,236,252,0.9)';
+    ctx.fillText('ДЕНИС', V.cw * 0.21, V.ch * 0.79);
+    ctx.fillText('ТАНЬКА', V.cw * 0.79, V.ch * 0.79);
+
+    ctx.font = '800 ' + Math.round(V.H * 0.036) + 'px Montserrat, sans-serif';
+    ctx.fillStyle = 'rgba(200,185,215,0.6)';
+    ctx.fillText('пистолет', V.cw * 0.21, V.ch * 0.84);
+    ctx.fillText('лазерные кулаки', V.cw * 0.79, V.ch * 0.84);
+
+    ctx.restore();
+
+    if (elapsed > 900 && elapsed < 1500){
+      const k = Math.min(1, (elapsed - 900) / 160);
+      ctx.save();
+      ctx.globalAlpha = 1 - Math.max(0, (elapsed - 1250) / 250);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.translate(V.cw / 2, V.ch * 0.47);
+      ctx.scale(0.7 + k * 0.35, 0.7 + k * 0.35);
+      ctx.font = '900 ' + Math.round(V.H * 0.22) + 'px Montserrat, sans-serif';
+      ctx.fillStyle = '#fff4cf';
+      ctx.shadowColor = '#ff9e3b';
+      ctx.shadowBlur = 30;
+      ctx.fillText('БОЙ!', 0, 0);
+      ctx.restore();
+    }
+  }
+
+  function drawKoBanner(){
+    if (G.phase === 'draw'){
+      ctx.save();
+      ctx.fillStyle = 'rgba(4,2,8,0.55)';
+      ctx.fillRect(0, 0, V.cw, V.ch);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '900 ' + Math.round(V.H * 0.17) + 'px Montserrat, sans-serif';
+      ctx.fillStyle = '#fff';
+      ctx.shadowColor = '#ff3b6b';
+      ctx.shadowBlur = 24;
+      ctx.fillText('НИЧЬЯ', V.cw / 2, V.ch * 0.45);
+      ctx.font = '800 ' + Math.round(V.H * 0.05) + 'px Montserrat, sans-serif';
+      ctx.shadowBlur = 8;
+      ctx.fillStyle = 'rgba(230,220,240,0.8)';
+      ctx.fillText('Раунд переигрывается', V.cw / 2, V.ch * 0.54);
+      ctx.restore();
+      return;
+    }
+
+    if (G.phase !== 'ko') return;
+
+    const elapsed = G.t - G.koAt;
+    const k = Math.min(1, elapsed / 320);
+    const winner = G.koWinner === 'denis' ? 'ДЕНИС' : 'ТАНЬКА';
+    const loser = G.koLoser === 'denis' ? 'ДЕНИС' : 'ТАНЬКА';
+
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.translate(V.cw / 2, V.ch * 0.42);
+    const sc = 0.75 + k * 0.35;
+    ctx.scale(sc, sc);
+    ctx.font = '900 ' + Math.round(V.H * 0.24) + 'px Montserrat, sans-serif';
+    ctx.fillStyle = '#fff6d8';
+    ctx.shadowColor = '#ff3b3b';
+    ctx.shadowBlur = 30;
+    ctx.fillText(G.koReason === 'time' ? 'ВРЕМЯ' : 'K.O.', 0, 0);
+    ctx.restore();
+
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.font = '900 ' + Math.round(V.H * 0.06) + 'px Montserrat, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 10;
+    ctx.fillText(winner + ' забирает раунд', V.cw / 2, V.ch * 0.56);
+    ctx.font = '800 ' + Math.round(V.H * 0.042) + 'px Montserrat, sans-serif';
+    ctx.fillStyle = 'rgba(220,205,235,0.6)';
+    ctx.fillText(loser + ' в нокауте', V.cw / 2, V.ch * 0.62);
+    ctx.restore();
+  }
+
+  function drawLowHp(){
+    const r = D.hp / D.maxHp;
+    if (r > 0.3 || G.phase !== 'fight') return;
+    const pulse = 0.25 + 0.15 * Math.sin(realTime * 0.006);
+    const a = (1 - r / 0.3) * pulse;
+    const g = ctx.createRadialGradient(V.cw / 2, V.ch / 2, V.ch * 0.25, V.cw / 2, V.ch / 2, V.ch * 0.8);
+    g.addColorStop(0, 'rgba(255,0,40,0)');
+    g.addColorStop(1, 'rgba(255,0,40,' + a.toFixed(3) + ')');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, V.cw, V.ch);
+  }
+
+  function draw(now){
+    const sh = G.shake;
+    const ox = (Math.random() - 0.5) * sh;
+    const oy = (Math.random() - 0.5) * sh;
+
+    /* защита от накопления состояния canvas */
+    ctx.setTransform(V.dpr, 0, 0, V.dpr, 0, 0);
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.setLineDash([]);
+    if ('filter' in ctx) ctx.filter = 'none';
+    ctx.shadowBlur = 0;
+
+    ctx.clearRect(0, 0, V.cw, V.ch);
+    ctx.save();
+    ctx.translate(ox, oy);
+    drawStage();
+    drawFighter(T, D);
+    drawFighter(D, T);
+    drawBeams();
+    drawProjectiles();
+    drawFx();
+    ctx.restore();
+
+    drawLowHp();
+
+    /* виньетка */
+    const vg = ctx.createRadialGradient(V.cw / 2, V.ch / 2, V.ch * 0.35, V.cw / 2, V.ch / 2, V.ch * 0.95);
+    vg.addColorStop(0, 'rgba(0,0,0,0)');
+    vg.addColorStop(1, 'rgba(0,0,0,0.5)');
+    ctx.fillStyle = vg;
+    ctx.fillRect(0, 0, V.cw, V.ch);
+
+    if (G.flash > 0.01){
+      ctx.fillStyle = 'rgba(255,245,225,' + Math.min(0.45, G.flash).toFixed(3) + ')';
+      ctx.fillRect(0, 0, V.cw, V.ch);
+    }
+
+    drawHud();
+    if (G.phase === 'intro') drawIntro();
+    drawKoBanner();
+  }
+
+  /* ---------- управление ---------- */
+  function bindHold(node, key){
+    function down(e){
+      e.preventDefault();
+      input[key] = true;
+      node.classList.add('pressed');
+    }
+    function up(e){
       if (e) e.preventDefault();
-      G.denis[flag] = false;
+      input[key] = false;
       node.classList.remove('pressed');
     }
-    node.addEventListener('pointerup', stop);
-    node.addEventListener('pointercancel', stop);
-    node.addEventListener('pointerleave', stop);
+    on(node, 'pointerdown', down);
+    on(node, 'pointerup', up);
+    on(node, 'pointercancel', up);
+    on(node, 'pointerleave', up);
+    on(node, 'contextmenu', function(e){ e.preventDefault(); });
+  }
+
+  function bindTap(node, fn){
+    on(node, 'pointerdown', function(e){
+      e.preventDefault();
+      node.classList.add('pressed');
+      fn();
+      setTimeout(function(){ node.classList.remove('pressed'); }, 110);
+    });
+    on(node, 'contextmenu', function(e){ e.preventDefault(); });
   }
 
   bindHold(btnLeft, 'left');
   bindHold(btnRight, 'right');
+  bindHold(btnBlock, 'block');
 
-  /* ---------- ИНПУТ: КЛАВИАТУРА ---------- */
-  function onKeyDown(e){
-    if (!G.running || G.over) return;
-    if (e.key === 'ArrowLeft' || e.code === 'ArrowLeft') {
-      G.denis.left = true;
-      btnLeft.classList.add('pressed');
-      e.preventDefault();
-    } else if (e.key === 'ArrowRight' || e.code === 'ArrowRight') {
-      G.denis.right = true;
-      btnRight.classList.add('pressed');
-      e.preventDefault();
-    } else if (e.code === 'Space' || e.key === ' ') {
-      fireTap();
-      e.preventDefault();
-    } else if (e.key === 'Enter') {
-      punchTap();
-      e.preventDefault();
+  bindTap(btnJump, function(){
+    if (G.phase !== 'fight') return;
+    input.jumpAt = G.t;
+  });
+  bindTap(btnDodge, function(){
+    if (G.phase !== 'fight') return;
+    input.dodgeAt = G.t;
+  });
+  bindTap(btnPunch, function(){
+    if (G.phase !== 'fight') return;
+    input.punchAt = G.t;
+  });
+  bindTap(btnFire, function(){
+    if (G.phase !== 'fight') return;
+    input.shootAt = G.t;
+    tryShoot(D);
+  });
+  bindTap(btnSuper, function(){
+    if (G.phase !== 'fight') return;
+    input.superAt = G.t;
+  });
+
+  on(window, 'keydown', function(e){
+    if (e.repeat) return;
+    switch (e.code){
+      case 'ArrowLeft': case 'KeyA':
+        input.left = true; e.preventDefault(); break;
+      case 'ArrowRight': case 'KeyD':
+        input.right = true; e.preventDefault(); break;
+      case 'ArrowDown': case 'KeyS':
+        input.block = true; e.preventDefault(); break;
+      case 'ArrowUp': case 'KeyW': case 'Space':
+        input.jumpAt = G.t; e.preventDefault(); break;
+      case 'ShiftLeft': case 'ShiftRight': case 'KeyQ':
+        input.dodgeAt = G.t; break;
+      case 'KeyJ':
+        input.punchAt = G.t; break;
+      case 'KeyK':
+        input.shootHeld = true; input.shootAt = G.t; break;
+      case 'KeyE':
+        input.superAt = G.t; break;
+    }
+  });
+
+  on(window, 'keyup', function(e){
+    switch (e.code){
+      case 'ArrowLeft': case 'KeyA': input.left = false; break;
+      case 'ArrowRight': case 'KeyD': input.right = false; break;
+      case 'ArrowDown': case 'KeyS': input.block = false; break;
+      case 'KeyK': input.shootHeld = false; break;
+    }
+  });
+
+  /* ---------- петля ---------- */
+  function updateSuperBtn(force){
+    const ready = D.super >= 100 && G.phase === 'fight';
+    if (force || ready !== G.lastSuperReady){
+      btnSuper.classList.toggle('ready', ready);
+      G.lastSuperReady = ready;
     }
   }
 
-  function onKeyUp(e){
-    if (e.key === 'ArrowLeft' || e.code === 'ArrowLeft') {
-      G.denis.left = false;
-      btnLeft.classList.remove('pressed');
-    } else if (e.key === 'ArrowRight' || e.code === 'ArrowRight') {
-      G.denis.right = false;
-      btnRight.classList.remove('pressed');
-    }
-  }
+  function tick(dt){
+    realTime += dt;
+    G.shake *= Math.pow(0.86, dt / 16.67);
+    G.flash *= Math.pow(0.74, dt / 16.67);
 
-  window.addEventListener('keydown', onKeyDown);
-  window.addEventListener('keyup', onKeyUp);
-
-  /* мобильное управление Денисом */
-  let dragging = false;
-
-  function moveDenisTo(clientY){
-    const rect = canvas.getBoundingClientRect();
-    const rel = (clientY - rect.top) / rect.height;
-    const logicalY = rel * H;
-    G.denis.targetY = Math.max(175, Math.min(H - 165, logicalY));
-  }
-
-  function onDown(e){
-    if (G.over) return;
-    dragging = true;
-    moveDenisTo(e.clientY);
-    e.preventDefault();
-  }
-
-  function onMove(e){
-    if (!dragging || G.over) return;
-    moveDenisTo(e.clientY);
-    e.preventDefault();
-  }
-
-  function onUp(){
-    dragging = false;
-  }
-
-  canvas.addEventListener('pointerdown', onDown);
-  canvas.addEventListener('pointermove', onMove);
-  canvas.addEventListener('pointerup', onUp);
-  canvas.addEventListener('pointercancel', onUp);
-  canvas.addEventListener('pointerleave', onUp);
-
-  /* ---------- отрисовка ---------- */
-  function drawSprite(spriteObj, x, y, w, h, emoji, emojiSize, glow){
-    const cx = x + w / 2;
-
-    if (glow) {
-      const rg = ctx.createRadialGradient(cx, y, 10, cx, y, w * 1.1);
-      rg.addColorStop(0, glow);
-      rg.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = rg;
-      ctx.fillRect(cx - w * 1.2, y - h * 0.7, w * 2.4, h * 1.4);
+    if (G.hitstop > 0){
+      G.hitstop -= dt;
+      updateFx(dt * 0.15);
+      return;
     }
 
-    ctx.save();
-    ctx.fillStyle = 'rgba(0,0,0,0.55)';
-    ctx.beginPath();
-    ctx.ellipse(cx, y + h / 2 - 6, w * 0.42, 14, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
+    const scale = (G.phase === 'ko' || G.phase === 'draw') ? 0.3 : 1;
+    const gdt = dt * scale;
+    G.t += gdt;
+    updateFx(dt);
 
-    if (spriteObj && spriteObj.ok && spriteObj.el.complete && spriteObj.el.naturalWidth > 0) {
-      const img = spriteObj.el;
-      const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight);
-      const dw = img.naturalWidth * scale;
-      const dh = img.naturalHeight * scale;
-      ctx.drawImage(img, cx - dw / 2, y - dh / 2, dw, dh);
-    } else {
-      ctx.save();
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.font = emojiSize + 'px "Segoe UI Emoji", "Apple Color Emoji", serif';
-      ctx.fillText(emoji, cx, y);
-      ctx.restore();
-    }
-  }
-
-  function drawBackground(){
-    const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, '#1c0b2b');
-    bg.addColorStop(0.55, '#120a19');
-    bg.addColorStop(1, '#08060b');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.strokeStyle = 'rgba(155,89,182,0.12)';
-    ctx.lineWidth = 1;
-    for (let x = 0; x < W; x += 80) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, H);
-      ctx.stroke();
-    }
-    for (let y = 0; y < H; y += 80) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(W, y);
-      ctx.stroke();
-    }
-
-    ctx.fillStyle = 'rgba(155,89,182,0.10)';
-    ctx.fillRect(0, H - 70, W, 70);
-
-    const glow = ctx.createRadialGradient(W / 2, H - 40, 20, W / 2, H - 40, W * 0.6);
-    glow.addColorStop(0, 'rgba(255,51,51,0.16)');
-    glow.addColorStop(1, 'rgba(255,51,51,0)');
-    ctx.fillStyle = glow;
-    ctx.fillRect(0, H - 200, W, 200);
-
-    ctx.strokeStyle = 'rgba(255,51,51,0.55)';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(W / 2, H - 70);
-    ctx.lineTo(W / 2, H - 20);
-    ctx.stroke();
-  }
-
-  function drawLaser(now){
-    if (G.aim.active && now < G.aim.until) {
-      ctx.save();
-      ctx.setLineDash([12, 12]);
-      ctx.strokeStyle = 'rgba(255,51,51,0.45)';
-      ctx.lineWidth = 3;
-      ctx.shadowBlur = 12;
-      ctx.shadowColor = 'red';
-      ctx.beginPath();
-      ctx.moveTo(G.tanka.x, G.tanka.y - 50);
-      ctx.lineTo(G.aim.x, G.aim.y);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    if (G.laser.show && now < G.laser.until) {
-      const L = G.laser;
-      const fade = Math.max(0, (L.until - now) / 260);
-      ctx.save();
-
-      ctx.lineWidth = 15;
-      ctx.strokeStyle = 'rgba(255,51,51,' + (0.9 * fade).toFixed(3) + ')';
-      ctx.shadowBlur = 20;
-      ctx.shadowColor = 'red';
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(L.x1, L.y1);
-      ctx.lineTo(L.x2, L.y2);
-      ctx.stroke();
-
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = 'rgba(255,235,235,' + (0.95 * fade).toFixed(3) + ')';
-      ctx.shadowBlur = 0;
-      ctx.beginPath();
-      ctx.moveTo(L.x1, L.y1);
-      ctx.lineTo(L.x2, L.y2);
-      ctx.stroke();
-
-      ctx.restore();
-    }
-  }
-
-  function drawBullets(){
-    for (let i = 0; i < G.bullets.length; i++) {
-      const b = G.bullets[i];
-      ctx.save();
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = '#f1c40f';
-      ctx.fillStyle = '#ffe066';
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, 8, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = 'rgba(255,255,255,0.85)';
-      ctx.beginPath();
-      ctx.arc(b.x - 2, b.y - 2, 3, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-  }
-
-  function drawParticles(){
-    for (let i = 0; i < G.particles.length; i++) {
-      const p = G.particles[i];
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, p.life);
-      ctx.fillStyle = p.color;
-      ctx.shadowBlur = 12;
-      ctx.shadowColor = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-  }
-
-  function lineHitsRect(x1, y1, x2, y2, rx, ry, rw, rh){
-    const steps = 48;
-    for (let i = 0; i <= steps; i++) {
-      const t = i / steps;
-      const px = x1 + (x2 - x1) * t;
-      const py = y1 + (y2 - y1) * t;
-      if (px >= rx && px <= rx + rw && py >= ry && py <= ry + rh) return true;
-    }
-    return false;
-  }
-
-  function update(dt, now){
-    if (!G.running) return;
-
-    const f = dt / 16.67;
-    const d = G.denis;
-    const t = G.tanka;
-
-    /* ---- движение Дениса ---- */
-    if (!G.over) {
-      if (d.left) d.targetX -= 4 * f;
-      if (d.right) d.targetX += 4 * f;
-    }
-    d.targetX = clampDenisX(d.targetX);
-    d.x += (d.targetX - d.x) * Math.min(1, 0.3 * f);
-    d.y += (d.targetY - d.y) * Math.min(1, 0.22 * f);
-    d.y = Math.max(175, Math.min(H - 165, d.y));
-    d.x = clampDenisX(d.x);
-
-    /* ================= ИИ ТАНЬКИ ================= */
-    if (!G.over) {
-
-      /* 1. УКЛОНЕНИЕ: шанс 50% заложен при выстреле */
-      if (now > t.dodgeCooldown) {
-        for (let i = 0; i < G.bullets.length; i++) {
-          const b = G.bullets[i];
-          if (!b.dodgeRoll || b.dodged) continue;
-          if (b.x < t.x - 330 || b.x > t.x + 20) continue;
-
-          b.dodged = true;
-          t.dodgeCooldown = now + 1500;
-          t.dodgeUntil = now + 420;
-          t.state = 'dodge';
-
-          /* рывок по X на ±50 пикселей */
-          t.targetX = clampTankaX(t.x + (Math.random() < 0.5 ? -50 : 50));
-          /* и уход с линии огня по Y, иначе от горизонтальной пули не уйти */
-          const away = (b.y <= t.y) ? 1 : -1;
-          t.targetY = clampTankaY(t.targetY + away * 120);
-
-          playSound('click');
-          haptic('light');
-          break;
-        }
+    if (G.phase === 'intro'){
+      if (realTime - G.introReal > 1500){
+        G.phase = 'fight';
+        G.roundTime = 60;
+        G.ai.thinkAt = G.t + 350;
       }
+      stepPhysics(gdt);
+    } else if (G.phase === 'fight'){
+      G.roundTime -= gdt / 1000;
+      updatePlayer();
+      updateAI();
+      stepPhysics(gdt);
+      updateProjectiles(gdt);
+      if (G.roundTime <= 0) onTimeout();
+    } else if (G.phase === 'ko'){
+      stepPhysics(gdt);
+      updateProjectiles(gdt);
+      if (realTime - G.koReal > 2100) finishRound();
+    } else if (G.phase === 'draw'){
+      stepPhysics(gdt);
+      if (realTime - G.koReal > 1600) startRound(G.round);
+    }
 
-      if (t.state === 'dodge' && now > t.dodgeUntil) t.state = 'idle';
-      if (t.state === 'moving' && now > t.moveUntil) t.state = 'idle';
+    updateSuperBtn();
+  }
 
-      /* 2. СБЛИЖЕНИЕ раз в 3–4 секунды */
-      if (now > t.aiTimer && !t.isShooting && t.state !== 'dodge' && t.state !== 'punching') {
-        t.aiTimer = now + 3000 + Math.random() * 1000;
-        t.targetY = H / 2;
+  let raf = 0;
+  let lastTs = 0;
+  let stopped = false;
 
-        const gap = t.x - (d.x + d.w);
-
-        if (gap > 130) {
-          t.state = 'moving';
-          t.moveUntil = now + 2200;
-          t.targetX = clampTankaX(t.x - 120);
-        } else {
-          /* 3. УДАР КУЛАКОМ вблизи */
-          t.state = 'punching';
-          t.punchStart = now;
-          t.punchFired = false;
-        }
-      }
-
-      /* 4. РАЗРЕШЕНИЕ УДАРА */
-      if (t.state === 'punching') {
-        const ph = now - t.punchStart;
-        if (ph >= 380 && !t.punchFired) {
-          t.punchFired = true;
-          const gap = t.x - (d.x + d.w);
-          if (gap < 140) {
-            damageDenis(16);
-          } else {
-            /* Денис отпрыгнул — мимо */
-            addParticles(t.x - 30, t.y - 20, '#9b59b6', 8);
-            playSound('click');
-          }
-        }
-        if (ph >= 720) t.state = 'idle';
+  function frame(ts){
+    if (stopped) return;
+    if (!lastTs) lastTs = ts;
+    const dt = Math.min(40, ts - lastTs);
+    lastTs = ts;
+    try {
+      tick(dt);
+      draw(ts);
+    } catch(e) {
+      if (!frame.warned) {
+        frame.warned = true;
+        try { console.warn('fight loop error', e); } catch(_e){}
       }
     }
-
-    /* ---- движение Таньки ---- */
-    const tSpeed = (t.state === 'dodge') ? 0.5 : 0.22;
-    t.x += (t.targetX - t.x) * Math.min(1, tSpeed * f);
-    t.y += (t.targetY - t.y) * Math.min(1, tSpeed * f);
-    t.x = clampTankaX(t.x);
-    t.y = clampTankaY(t.y);
-
-    /* ---- цикл стрельбы Таньки ---- */
-    if (!G.over) {
-      if (!t.isShooting && now >= G.nextShotAt && t.state !== 'punching' && t.state !== 'dodge') {
-        t.isShooting = true;
-        t.shootStart = now;
-        t.fired = false;
-        G.aim.x = d.x + d.w / 2;
-        G.aim.y = d.y;
-        G.aim.active = true;
-        G.aim.until = now + 520;
-      }
-
-      if (t.isShooting) {
-        const phase = now - t.shootStart;
-
-        if (phase >= 500 && !t.fired) {
-          t.fired = true;
-          G.aim.active = false;
-
-          const x1 = t.x;
-          const y1 = t.y - 50;
-          const x2 = G.aim.x;
-          const y2 = G.aim.y;
-
-          G.laser = { show: true, x1: x1, y1: y1, x2: x2, y2: y2, until: now + 280 };
-
-          /* зона попадания — корпус Дениса (по Y) */
-          const hitboxX = d.x + 20;
-          const hitboxY = d.y - 70;
-          const hitboxW = d.w - 40;
-          const hitboxH = 140;
-
-          if (lineHitsRect(x1, y1, x2, y2, hitboxX, hitboxY, hitboxW, hitboxH)) {
-            damageDenis(14);
-          }
-        }
-
-        if (phase >= 1500) {
-          t.isShooting = false;
-          G.nextShotAt = now + 1500;
-        }
-      }
-    }
-
-    /* пули */
-    for (let i = G.bullets.length - 1; i >= 0; i--) {
-      const b = G.bullets[i];
-      b.x += b.vx * (dt / 16.67);
-
-      if (b.x > W + 40) {
-        G.bullets.splice(i, 1);
-        continue;
-      }
-
-      if (!G.over &&
-          b.x >= t.x + 15 && b.x <= t.x + t.w - 15 &&
-          b.y >= t.y - 95 && b.y <= t.y + 95) {
-        G.bullets.splice(i, 1);
-        damageTanka(10, b.x, b.y);
-        continue;
-      }
-    }
-
-    /* частицы */
-    for (let i = G.particles.length - 1; i >= 0; i--) {
-      const p = G.particles[i];
-      p.x += p.vx * (dt / 16.67);
-      p.y += p.vy * (dt / 16.67);
-      p.vy += 0.14 * (dt / 16.67);
-      p.life -= 0.022 * (dt / 16.67);
-      if (p.life <= 0) G.particles.splice(i, 1);
-    }
+    raf = requestAnimationFrame(frame);
   }
 
-  function drawEmoji(emoji, x, y, size){
-    ctx.save();
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = size + 'px "Segoe UI Emoji", "Apple Color Emoji", serif';
-    ctx.shadowBlur = 14;
-    ctx.shadowColor = 'rgba(0,0,0,.85)';
-    ctx.fillText(emoji, x, y);
-    ctx.restore();
+  /* ---------- запуск ---------- */
+  layout();
+  startRound(1);
+
+  let ro = null;
+  if (window.ResizeObserver){
+    ro = new ResizeObserver(function(){ layout(); });
+    ro.observe(wrap.querySelector('.fight-stage'));
   }
+  on(window, 'resize', layout);
 
-  function render(now){
-    drawBackground();
+  const hintTimer = setTimeout(function(){ hintEl.classList.add('fade'); }, 9000);
 
-    /* Денис */
-    const d = G.denis;
-    const denisPunching = now < d.punchUntil;
-    let denisSprite = spriteDenisIdle;
-    if (denisPunching) denisSprite = spriteDenisAngry;
-    else if (now < d.shootUntil) denisSprite = spriteDenisShoot;
-    else if (now < d.hurtUntil) denisSprite = spriteDenisAngry;
-    else if (d.hp <= 34) denisSprite = spriteDenisAngry;
-
-    drawSprite(denisSprite, d.x, d.y, d.w, d.h, '🧔', 110, 'rgba(120,180,255,0.18)');
-
-    if (denisPunching) {
-      const ph = 1 - Math.max(0, (d.punchUntil - now) / 280);
-      drawEmoji('👊', d.x + d.w - 6 + ph * 46, d.y - 26, 54);
-    }
-
-    /* Танька */
-    const t = G.tanka;
-    const tankaPunching = (t.state === 'punching');
-    let tankaSprite = spriteTankaIdle;
-    if (now < t.hurtUntil) tankaSprite = spriteTankaHurt;
-    else if (tankaPunching) tankaSprite = spriteTankaHurt;
-    else if (t.isShooting) tankaSprite = spriteTankaLaser;
-
-    const tankaGlow = (t.state === 'dodge')
-      ? 'rgba(255,236,120,0.32)'
-      : 'rgba(255,105,180,0.18)';
-
-    drawSprite(tankaSprite, t.x, t.y, t.w, t.h, '👩', 110, tankaGlow);
-
-    if (tankaPunching) {
-      const ph = Math.min(1, (now - t.punchStart) / 380);
-      drawEmoji('👊', t.x - 4 - ph * 64, t.y - 30, 58);
-      if (!t.punchFired) drawEmoji('💢', t.x + t.w / 2, t.y - 72, 34);
-    }
-
-    if (t.state === 'dodge') {
-      drawEmoji('💨', t.x + t.w / 2, t.y - 60, 40);
-    }
-
-    /* глаза Таньки, светящиеся при зарядке */
-    const eyeX = t.x;
-    const eyeY = t.y - 50;
-    if (t.isShooting) {
-      const pulse = 0.5 + 0.5 * Math.sin(now / 60);
-      ctx.save();
-      ctx.shadowBlur = 24;
-      ctx.shadowColor = 'red';
-      ctx.fillStyle = 'rgba(255,51,51,' + (0.5 + pulse * 0.5).toFixed(2) + ')';
-      ctx.beginPath();
-      ctx.arc(eyeX, eyeY, 11 + pulse * 5, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-
-    drawLaser(now);
-    drawBullets();
-    drawParticles();
-
-    /* подписи */
-    ctx.save();
-    ctx.font = 'bold 18px Montserrat, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = 'rgba(200,180,220,0.55)';
-    ctx.fillText('РАУНД ' + G.round, 24, 34);
-    ctx.textAlign = 'right';
-    ctx.fillStyle = 'rgba(200,180,220,0.55)';
-    ctx.fillText(G.winsD + ' : ' + G.winsT, W - 24, 34);
-    ctx.restore();
-  }
-
-  function loop(ts){
-    if (!G.running) return;
-    if (!G.lastTs) G.lastTs = ts;
-    const dt = Math.min(60, ts - G.lastTs);
-    G.lastTs = ts;
-
-    update(dt, ts);
-    render(ts);
-
-    requestAnimationFrame(loop);
-  }
-
-  resetRound(false);
-  requestAnimationFrame(loop);
+  raf = requestAnimationFrame(frame);
 
   miniCleanup = function(){
-    G.running = false;
-    G.over = true;
-    canvas.removeEventListener('pointerdown', onDown);
-    canvas.removeEventListener('pointermove', onMove);
-    canvas.removeEventListener('pointerup', onUp);
-    canvas.removeEventListener('pointercancel', onUp);
-    canvas.removeEventListener('pointerleave', onUp);
-    window.removeEventListener('keydown', onKeyDown);
-    window.removeEventListener('keyup', onKeyUp);
+    stopped = true;
+    cancelAnimationFrame(raf);
+    if (ro) ro.disconnect();
+    clearTimeout(hintTimer);
+    for (let i = 0; i < cleanups.length; i++){
+      try { cleanups[i](); } catch(e){}
+    }
+    cleanups.length = 0;
   };
 }
 
